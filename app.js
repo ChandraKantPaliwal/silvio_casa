@@ -5,11 +5,24 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var iniparser = require('iniparser');
+var config = iniparser.parseSync('./config/databaseConfig.ini');
+
 var routes = require('./routes/index');
 // var users = require('./routes/users');
 var apicalls = require('./routes/api/index');
+crypto = require('crypto');
 
 var app = express();
+
+  var mysql      = require('mysql');
+  connection = mysql.createConnection({
+    host     : config.host,
+    user     : config.user,
+    password : config.password,
+    database : config.database
+  });
+  connection.connect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +32,7 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(cookieParser('S3CR3T'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);

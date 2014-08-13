@@ -4,22 +4,22 @@ var router = express.Router();
 // middleware to use for all requests
 router.use(function(req, res, next) {
 	// do logging
-	console.log('Something is happening.');
+	console.log('request generated');
+	console.log(req.body);
 	next();
 });
 
-
-// on routes that end in /bears
+var loginModel=require('../../model/loginModel');
+var loginController=require('../../controller/loginController');
+// on routes that end in /login
 // ----------------------------------------------------
 router.route('/login')
 
-	// create a bear (accessed at POST http://localhost:8080/bears)
-	.post(function(req, res) {
-		res.json({ message: 'Api for post method' });
-	})
-// on routes that end in /bears/:bear_id
+	.post(loginModel.validate, loginController.validate)
+
+// on routes that end in /bears/:id
 // ----------------------------------------------------
-router.route('/user/:bear_id')
+router.route('/user/:id')
 
 	// get the bear with that id
 	.get(function(req, res) {
