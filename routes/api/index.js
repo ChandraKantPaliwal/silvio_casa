@@ -10,7 +10,7 @@ router.use(function(req, res, next) {
 });
 
 var loginModel=require('../../model/loginModel');
-var loginController=require('../../controller/loginController');
+var loginController=require('../../controller/api/loginController');
 // on routes that end in /login
 // ----------------------------------------------------
 router.route('/login')
