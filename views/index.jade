@@ -1,5 +1,19 @@
 extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Welcome to #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block page_content

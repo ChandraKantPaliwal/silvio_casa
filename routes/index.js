@@ -24,9 +24,12 @@ router.route('/login')
 
 	.post(userModel.login, userController.login)
 
-	// get all the bears (accessed at GET http://localhost:8080/api/bears)
 	.get(function(req, res) {
 		res.json({ message: 'Api for the get method' });
 	});
+
+router.get('/logout', userModel.logout, userController.logout);
+
+
 
 module.exports = router;

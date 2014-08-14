@@ -1,7 +1,6 @@
 exports.index=function(req, res){
-	// api made here
-	if(session.userId!="undefined"){
-		res.render('index', { title: 'Express' });
+	if(session.userId!=undefined){
+		res.render('index', { title: 'Silvio Casa', dashboard:'active', priv:session.userPriv, username:session.userName });
 	}
 	else{
 		res.redirect('/login');
@@ -37,7 +36,8 @@ exports.login = function(req, res){
         		console.log(data_final);
 	            var data=JSON.parse(data_final);
 	            session.userId=data.user[0].id;
-	            session.userPrev=data.user[0].priv;
+	            session.userName=data.user[0].name;
+	            session.userPriv=data.user[0].priv;
 	            session.token = data.authentication_token;
 	            res.send("valid");
         	}
