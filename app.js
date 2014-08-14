@@ -12,7 +12,7 @@ var routes = require('./routes/index');
 // var users = require('./routes/users');
 var apicalls = require('./routes/api/index');
 crypto = require('crypto');
-
+session = require('session');
 var app = express();
 
   var mysql      = require('mysql');
