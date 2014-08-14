@@ -4,9 +4,10 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var iniparser = require('iniparser');
-var config = iniparser.parseSync('./config/databaseConfig.ini');
+querystring = require('querystring');
+http = require('http');
+config = iniparser.parseSync('./config/databaseConfig.ini');
 
 var routes = require('./routes/index');
 // var users = require('./routes/users');

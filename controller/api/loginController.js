@@ -1,5 +1,5 @@
 exports.validate=function(req, res){
-	connection.query("select * from `users` where `email`='"+req.body.email+"' AND `password`='"+req.body.password+"'", function(err, user){
+	connection.query("select * from `users` where `email`='"+req.body.email+"' AND `password`='"+req.body.password+"' LIMIT 1", function(err, user){
 		if(err){
 			res.jsonp(500, {"success": "false", "message":"internal error"});
 		}
@@ -13,6 +13,15 @@ exports.validate=function(req, res){
 						res.jsonp(500, {"success": "false", "message":"internal error"});
 					}
 					else{
+						// 1 => for admin
+						// 0 for other user
+						var priv=1;
+						if(user[0].is_admin==1){
+							user[0].priv=1;
+						}
+						else{
+							user[0].priv=0;
+						}
 						res.jsonp(200, {"success":"true", "user":user, "authentication_token":auth_token});
 					}
 				});
