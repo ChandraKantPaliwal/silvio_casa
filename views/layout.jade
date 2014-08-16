@@ -109,23 +109,27 @@ html.no-js(lang='en')
             li.sidebar-search-wrapper
               br
             li(class=dashboard+' start')
-              a(href='/users/')
+              a(href='/')
                 i.fa.fa-home
+                - if(dashboard)
+                span.selected
                 span.title
                   | Dashboard
             - if(priv == 1)
               li(class=items)
                 a(href='javascript:;')
                   i.fa.fa-bars
+                  - if(items)
+                  span.selected
                   span.title
                     | Items
                   span.arrow
                 ul.sub-menu
                   li(class=sub_sidebar1)
-                    a(href='/users/newrfq')
+                    a(href='/item')
                       | Add New
                   li(class=sub_sidebar2)
-                    a(href='/users/finalize')
+                    a(href='/item')
                       | Manage
             - else
               // li(class='disabled')
@@ -211,6 +215,8 @@ html.no-js(lang='en')
                 block title_left
               //
                  END PAGE TITLE & BREADCRUMB
+            .col-md-12
+              block breadcrumb
           //
              END PAGE HEADER
           //
@@ -259,6 +265,7 @@ html.no-js(lang='en')
     script(src='/assets/scripts/core/app.js')
     script(src='/assets/scripts/custom/ui-general.js')
     script(src='/assets/scripts/custom/components-pickers.js')
+    script(src='/assets/scripts/custom/custom.js')
     //
        END PAGE LEVEL SCRIPTS
     block doc_ready

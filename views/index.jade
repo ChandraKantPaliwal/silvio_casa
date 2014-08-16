@@ -16,4 +16,55 @@ block hint
 block title_left
   | YOYO
 
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="/")
+        | Dashboard
+      i.fa.fa-angle-right
+
+
 block page_content
+  .row
+    .col-md-12
+      .portlet.box.yellow
+        .portlet-title
+          .caption
+            i.fa.fa-coffee
+            | Notifications
+        .portlet-body
+          .table-responsive
+            table.table.table-bordered.table-hover
+              thead
+                tr
+                  th
+                    | #
+                  th
+                    | Item Name
+                  th
+                    | Item Code
+                  th
+                    | Item Quantity
+                  th
+                    | Status
+                  th
+                    | Action
+              tbody
+                tr
+                  td
+                    | 1
+                  td
+                    | OXN. Vas Murti
+                  td
+                    | vas_murti
+                  td
+                    | 0
+                  td
+                    span.label.label-sm.label-danger
+                      | Stock Empty
+                  td
+                    a.btn.blue.btn-sm.disable-notification(item-id="1")
+                      | Disable Notification
+

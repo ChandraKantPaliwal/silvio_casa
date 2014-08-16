@@ -1,0 +1,92 @@
+extends layout
+
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Welcome to #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="item")
+        | Item
+      i.fa.fa-angle-right
+    li
+      a(href="item")
+        | New
+      i.fa.fa-angle-right
+
+block page_content
+  .row
+    .col-md-12
+      .portlet.box.light-gray
+        .portlet-title
+          .caption
+            i.fa.fa-coffee
+            | Add Item
+        .portlet-body.form
+          form.form-horizontal
+            .form-body
+              .form-group
+                label.control-label.col-md-3
+                  | Item Name
+                  span.required
+                    | *
+                .col-md-4
+                  input.form-control
+              .form-group
+                label.control-label.col-md-3
+                  | Item Code
+                  span.required
+                    | *
+                .col-md-4
+                  input.form-control
+              .form-group
+                label.control-label.col-md-3
+                  | Item Weight
+                  span.required
+                    | *
+                .col-md-4
+                  input.form-control
+              .form-group
+                label.control-label.col-md-3
+                  | Item Quantity
+                  span.required
+                    | *
+                .col-md-4
+                  input.form-control
+              .form-group
+                label.control-label.col-md-3
+                  | Item Fixed Price
+                .col-md-4
+                  .radio-list
+                    label.radio-inline
+                      span
+                        input(type='radio' class='price-type' name='price_type' value='yes' style='margin-left:0px;')
+                      | &nbsp;Yes
+                    label.radio-inline
+                      span
+                        input(type='radio' class='price-type' name='price_type' value='no' style='margin-left:0px;' checked)
+                      | &nbsp;No
+              .form-group#price-value-field
+                label.control-label.col-md-3
+                  | Making Charges
+                .col-md-4
+                  input.form-control
+            .form-actions.fluid
+              .col-md-offset-3.col-md-9
+                button.btn.green(type="submit", name="btn_add_items") Submit
+

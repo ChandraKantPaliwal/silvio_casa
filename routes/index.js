@@ -5,6 +5,8 @@ var router = express.Router();
 var userController=require('../controller/app/userController');
 var userModel=require('../model/app/userModel');
 
+var globalModel=require('../model/app/globalModel');
+
 // middleware to use for all requests
 router.use(function(req, res, next) {
 	// do logging
@@ -31,5 +33,12 @@ router.route('/login')
 router.get('/logout', userModel.logout, userController.logout);
 
 
+// routes for the item features
+var itemController=require('../controller/app/itemController');
+var itemModel=require('../model/app/itemModel');
+
+router.route('/item')
+	.get(globalModel.index, itemModel.index, itemController.index);
+	// .get('/New', itemModel.index, itemController.index)
 
 module.exports = router;
