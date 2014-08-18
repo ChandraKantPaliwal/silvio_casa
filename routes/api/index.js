@@ -50,8 +50,9 @@ router.route('/itemTypes/:user_id')
 
 router.route('/item')
 	.get(itemModel.index, itemController.index)
-	.post(itemModel.save, itemController.save);
-
+	.post(itemModel.save, itemController.save)
+	.put(itemModel.update, itemController.update)
+	.delete(itemModel.delete,itemController.delete)
 // on routes that end in /bears/:id
 // ----------------------------------------------------
 // router.route('/user/:id')
