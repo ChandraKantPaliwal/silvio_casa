@@ -120,7 +120,7 @@ exports.deleteUser=function(req,res,next){
 	else
 	{
 		console.log(req.params.user_id);
-		connection.query("SELECT * from `items_type` where `id`='"+req.params.user_id+"' AND `authentication_token`='"+req.header("authentication_token")+"'", function(err, user){
+		connection.query("SELECT * from `users` where `id`='"+req.params.user_id+"' AND `authentication_token`='"+req.header("authentication_token")+"'", function(err, user){
 			if(err)
 			{
 				res.jsonp(500,{"success":"false","message":"internal error"});

@@ -69,7 +69,7 @@ exports.delete_user=function(req, res){
 		}
 		else if(user.length>0)
 		{
-			connection.query("DELETE from users where `id`='"+req.params.id+"'",function(err,info){
+			connection.query("DELETE from `users` where `id`='"+req.params.id+"'",function(err,info){
 				if(err)
 				{
 					//console.log(err);
