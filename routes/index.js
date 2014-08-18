@@ -46,11 +46,11 @@ router.route('/item')
 	.post(globalModel.index, itemModel.save, itemController.save);
 	// .get('/New', itemModel.index, itemController.index)
 
-var silverPriceModel = require('../model/silverPriceModel');
-var silverPriceController = require('../model/silverPriceController');
+var silverPriceModel = require('../model/app/silverPriceModel');
+var silverPriceController = require('../controller/app/silverPriceController');
 
 router.route('/silverPrice')
-	.get(globalModel.index, silverPriceModel.index, silverPriceController.index);
+	.get(globalModel.index, silverPriceModel.index, silverPriceController.index)
 	.get(globalModel.index, silverPriceModel.save, silverPriceController.save);
 
 module.exports = router;
