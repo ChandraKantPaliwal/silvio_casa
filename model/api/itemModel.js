@@ -32,13 +32,14 @@ exports.index=function(req, res,next){
 	{
 		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
 	}
-	else if(typeof req.params.user_id=="undefined"||req.params.user_id=='')
-	{
-		res.jsonp(404,{"success":"false","message":"user_id not found"});
-	}
+	// else if(typeof req.params.user_id=="undefined"||req.params.user_id=='')
+	// {
+	// 	res.jsonp(404,{"success":"false","message":"user_id not found"});
+	// }
 	else
 	{
-		connection.query("SELECT * from `users` where `id`='"+req.params.user_id+"' AND `authentication_token`='"+req.header("authentication_token")+"' LIMIT 1", function(err, user){
+		 // `id`='"+req.params.user_id+"' AND
+		connection.query("SELECT * from `users` where `authentication_token`='"+req.header("authentication_token")+"' LIMIT 1", function(err, user){
 			if(err)
 			{
 				res.jsonp(500,{"success":"false","message":"internal error"});

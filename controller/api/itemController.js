@@ -22,7 +22,7 @@ exports.fetch_item_types=function(req, res){
 // get item detail
 
 exports.index=function(req, res){
-	var query="SELECT * FROM `items`";
+	var query="SELECT `items`.`id`, `items`.`name`, `items`.`code`, `item_types`.`name` as `item_type_name`, `items`.`weight`, `items`.`quantity`, `items`.`making_charges`, `items`.`fixed_price` FROM `items` LEFT JOIN `item_types` ON `items`.`item_types_id`=`item_types`.`id`";
 	connection.query(query, function(err, items){
 		if(err){
 			console.log(err);

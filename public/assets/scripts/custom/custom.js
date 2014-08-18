@@ -60,14 +60,14 @@ $(document).ready(function(){
         },
         weight: {
             required:true,
-            digits:true
+            number:true
         },
         quantity: {
             required:true,
-            digits:true
+            number:true
         },
         price_value:{
-            digits:true
+            number:true
         }
       },
       messages: {
