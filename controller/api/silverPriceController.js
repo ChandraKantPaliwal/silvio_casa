@@ -24,6 +24,5 @@ exports.save=function(req,res){
 			res.jsonp(200,{"success":"true","message":"Data Inserted Successfully"});
 		}
 	});
-
 };
 

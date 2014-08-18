@@ -21,6 +21,10 @@ var itemController=require('../../controller/api/itemController');
 
 var silverPriceModel=require('../../model/api/silverPriceModel');
 var silverPriceController=require('../../controller/api/silverPriceController');
+
+var inventoryModel=require('../../model/api/inventoryModel');
+var inventoryController=require('../../controller/api/inventoryController');
+
 // on routes that end in /login
 // ----------------------------------------------------
 router.route('/login')
@@ -62,6 +66,12 @@ router.route('/item')
 router.route('/silverPrice')
 	.get(silverPriceModel.index, silverPriceController.index)
 	.post(silverPriceModel.save, silverPriceController.save)
+
+//on routes that are associated with silverPrice
+//-----------------------------------------------------
+router.route('/inventory')
+	.get(inventoryModel.index, inventoryController.index)
+	//.post(inventoryModel.save, silverPriceController.save)
 
 // on routes that end in /bears/:id
 // ----------------------------------------------------
