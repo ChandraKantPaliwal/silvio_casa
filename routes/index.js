@@ -10,8 +10,9 @@ var globalModel=require('../model/app/globalModel');
 // middleware to use for all requests
 router.use(function(req, res, next) {
 	// do logging
-	console.log('request generated');
+	console.log('App request generated');
 	console.log(req.body);
+	console.log('App request middleware done');
 	next();
 });
 
@@ -38,7 +39,8 @@ var itemController=require('../controller/app/itemController');
 var itemModel=require('../model/app/itemModel');
 
 router.route('/item')
-	.get(globalModel.index, itemModel.index, itemController.index);
+	.get(globalModel.index, itemModel.index, itemController.index)
+	.post(globalModel.index, itemModel.save, itemController.save);
 	// .get('/New', itemModel.index, itemController.index)
 
 module.exports = router;

@@ -38,7 +38,7 @@ block page_content
             i.fa.fa-coffee
             | Add Item
         .portlet-body.form
-          form.form-horizontal
+          form.form-horizontal#add-item(action='/item' method='post')
             .form-body
               .form-group
                 label.control-label.col-md-3
@@ -46,28 +46,40 @@ block page_content
                   span.required
                     | *
                 .col-md-4
-                  input.form-control
+                  input.form-control#item-name(name='name')
               .form-group
                 label.control-label.col-md-3
                   | Item Code
                   span.required
                     | *
                 .col-md-4
-                  input.form-control
+                  input.form-control#item-code(name='code')
+              .form-group
+                  label.control-label.col-md-3
+                    | Item Types
+                    span.required
+                      | *
+                  .col-md-4
+                    select#item-type.form-control(name='item_type')
+                      option(value='')
+                        | Select Item Type
+                      - each type in itemTypes
+                        option(value="#{type.id}")= type.name
+                    span.help-block
               .form-group
                 label.control-label.col-md-3
                   | Item Weight
                   span.required
                     | *
                 .col-md-4
-                  input.form-control
+                  input.form-control#weight(name='weight')
               .form-group
                 label.control-label.col-md-3
                   | Item Quantity
                   span.required
                     | *
                 .col-md-4
-                  input.form-control
+                  input.form-control#quantity(name='quantity')
               .form-group
                 label.control-label.col-md-3
                   | Item Fixed Price
@@ -85,8 +97,8 @@ block page_content
                 label.control-label.col-md-3
                   | Making Charges
                 .col-md-4
-                  input.form-control
+                  input.form-control.price_value(name='price_value')
             .form-actions.fluid
               .col-md-offset-3.col-md-9
-                button.btn.green(type="submit", name="btn_add_items") Submit
+                button.btn.green(type="button" id='save-item' name="btn_add_items") Submit
 

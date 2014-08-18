@@ -8,3 +8,7 @@
 .form{
 	padding:0!important;
 }
+.error{
+	border-color: #b94a48;
+	color: #b94a48;
+}
