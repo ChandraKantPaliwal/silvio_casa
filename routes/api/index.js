@@ -61,7 +61,8 @@ router.route('/item')
 //-----------------------------------------------------
 router.route('/silverPrice')
 	.get(silverPriceModel.index, silverPriceController.index)
-	
+	.post(silverPriceModel.save, silverPriceController.save)
+
 // on routes that end in /bears/:id
 // ----------------------------------------------------
 // router.route('/user/:id')
