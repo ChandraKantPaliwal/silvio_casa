@@ -38,7 +38,7 @@ block page_content
             i.fa.fa-cogs
             | Silver Price
         .portlet-body.form
-          form.form-horizontal(method="post", action="silver-price.php")
+          form.form-horizontal(method="post", action="silverPrice.php" id='price-form')
             .form-body
               .form-group
                 label.control-label.col-md-3
@@ -46,10 +46,10 @@ block page_content
                   span.required
                     | *
                 .col-md-4
-                  input#silver_price.form-control(type="text", name="silver_price", data-required="1")
+                  input#silver_price.form-control(type="text", name="price")
             .form-actions.fluid
               .col-md-offset-3.col-md-9
-                button.btn.green(type="submit", name="btn_silver_price_update") Submit
+                button.btn.green.save-price(type="button") Submit
   .row
     .col-md-12
       .portlet.box.yellow
@@ -65,12 +65,12 @@ block page_content
                   th
                     | Sr.
                   th
-                    | Date
-                  th
                     | Price
+                  th
+                    | Date
               tbody
-              - each item in items
+              - each priceList in silverPrices
                 tr
-                  td 1
-                  td 13-08-2014
-                  td 45000
+                  td #{priceList.id}
+                  td #{priceList.price}
+                  td #{priceList.created_at}

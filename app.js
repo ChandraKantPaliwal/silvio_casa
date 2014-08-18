@@ -12,6 +12,7 @@ config = iniparser.parseSync('./config/databaseConfig.ini');
 var routes = require('./routes/index');
 // var users = require('./routes/users');
 var apicalls = require('./routes/api/index');
+moment = require('moment');
 crypto = require('crypto');
 session = require('session');
 var app = express();

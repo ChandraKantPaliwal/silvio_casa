@@ -146,12 +146,16 @@ html.no-js(lang='en')
               li(class=silverprice)
                 a(href=(priv == 1)?'/silverPrice':'javascript:;')
                   i.fa.fa-bars
+                  - if(silverprice)
+                  span.selected
                   span.title
                     | Silver Price
             - else
               li(class='silverprice')
                   a(href='/silverPrice')
                     i.fa.fa-bars
+                    - if(silverprice)
+                    span.selected
                     span.title
                       | Sliver Price
             li(class=(priv == 1 || priv ==0 )?billing:'disabled')
@@ -247,8 +251,8 @@ html.no-js(lang='en')
     //
        BEGIN CORE PLUGINS 
     //if lt IE 9
-      script(src='/assets/plugins/respond.min.js')
-      script(src='/assets/plugins/excanvas.min.js')
+    script(src='/assets/plugins/respond.min.js')
+    script(src='/assets/plugins/excanvas.min.js')
     script(src='/assets/plugins/jquery-1.10.2.min.js', type='text/javascript')
     script(src='/assets/plugins/jquery-migrate-1.2.1.min.js', type='text/javascript')
     script(src='/assets/plugins/bootstrap/js/bootstrap.min.js', type='text/javascript')
@@ -280,16 +284,17 @@ html.no-js(lang='en')
     script(src='/assets/scripts/custom/ui-general.js')
     script(src='/assets/scripts/custom/components-pickers.js')
     script(src='/assets/scripts/custom/custom.js')
+    script(type='text/javascript', src='assets/scripts/custom/silverprice.js')
     //
        END PAGE LEVEL SCRIPTS
     block doc_ready
-    script.
-      jQuery(document).ready(function() {
-      // initiate layout and plugins
-        App.init();
-        TableAdvanced.init();
-        // initialize();
-      });
+      script.
+        jQuery(document).ready(function() {
+        // initiate layout and plugins
+          App.init();
+          TableAdvanced.init();
+          // initialize();
+        });
     //
        END JAVASCRIPTS 
   //

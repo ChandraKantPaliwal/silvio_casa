@@ -1,5 +1,6 @@
 exports.index=function(req, res, next){
 	// validation test and previlage test
+	console.log("silver price model call");
 	next();
 };
 
