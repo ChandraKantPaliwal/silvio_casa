@@ -51,6 +51,12 @@ var silverPriceController = require('../controller/app/silverPriceController');
 
 router.route('/silverPrice')
 	.get(globalModel.index, silverPriceModel.index, silverPriceController.index)
-	.get(globalModel.index, silverPriceModel.save, silverPriceController.save);
+	.post(globalModel.index, silverPriceModel.save, silverPriceController.save);
+
+var inventoryModel = require('../model/app/inventoryModel');
+var inventoryController = require('../controller/app/inventoryController');
+
+router.route('/inventory')
+	.get(globalModel.index, inventoryModel.index, inventoryController.index);
 
 module.exports = router;

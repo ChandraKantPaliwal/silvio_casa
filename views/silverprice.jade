@@ -38,7 +38,7 @@ block page_content
             i.fa.fa-cogs
             | Silver Price
         .portlet-body.form
-          form.form-horizontal(method="post", action="silverPrice.php" id='price-form')
+          form.form-horizontal(method="post", action="silverPrice" id='price-form')
             .form-body
               .form-group
                 label.control-label.col-md-3
@@ -69,8 +69,8 @@ block page_content
                   th
                     | Date
               tbody
-              - each priceList in silverPrices
+              - each priceList, i in silverPrices
                 tr
-                  td #{priceList.id}
+                  td #{i+1}
                   td #{priceList.price}
                   td #{priceList.created_at}

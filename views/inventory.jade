@@ -1,0 +1,32 @@
+extends layout
+
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Welcome to #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="item")
+        | Item
+      i.fa.fa-angle-right
+    li
+      a(href="item")
+        | New
+      i.fa.fa-angle-right
+
+block page_content

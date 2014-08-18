@@ -178,6 +178,8 @@ html.no-js(lang='en')
             li(class=(priv == 1 || priv ==0 )?inventory:'disabled')
               a(href=(priv == 1 || priv == 0 )?'/inventory':'javascript:;')
                 i.fa.fa-legal
+                - if(inventory)
+                span.selected
                 span.title
                   | Inventory
           //

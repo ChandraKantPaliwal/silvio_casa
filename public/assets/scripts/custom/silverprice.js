@@ -15,8 +15,8 @@ var $validate = $("#price-form").validate({
 
 $(document).ready(function(){
     $('.save-price').click(function(){
-        $('#save-price').html("validating...").fadeIn('slow');
-            $('#price-form').submit();
-            // $('#save-price').html("Submit");
+        $('.save-price').html("validating...").fadeIn('slow');
+        $('#price-form').submit();
+        $('.save-price').html("Submit").fadeIn('slow');
     });
 });
