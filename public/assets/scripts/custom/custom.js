@@ -64,7 +64,7 @@ $(document).ready(function(){
         },
         quantity: {
             required:true,
-            number:true
+            digits:true
         },
         price_value:{
             number:true

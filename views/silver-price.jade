@@ -1,0 +1,76 @@
+extends layout
+
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Welcome to #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="item")
+        | Item
+      i.fa.fa-angle-right
+    li
+      a(href="item")
+        | New
+      i.fa.fa-angle-right
+
+block page_content
+  .row
+    .col-md-12
+      .portlet.box.yellow
+        .portlet-title
+          .caption
+            i.fa.fa-cogs
+            | Silver Price
+        .portlet-body.form
+          form.form-horizontal(method="post", action="silver-price.php")
+            .form-body
+              .form-group
+                label.control-label.col-md-3
+                  | Silver Price
+                  span.required
+                    | *
+                .col-md-4
+                  input#silver_price.form-control(type="text", name="silver_price", data-required="1")
+            .form-actions.fluid
+              .col-md-offset-3.col-md-9
+                button.btn.green(type="submit", name="btn_silver_price_update") Submit
+  .row
+    .col-md-12
+      .portlet.box.yellow
+        .portlet-title
+          .caption
+            i.fa.fa-bars
+            | Last Five Silver Rates
+        .portlet-body
+          .table-responsive
+            table.table.table-striped.table-hover
+              thead
+                tr
+                  th
+                    | Sr.
+                  th
+                    | Date
+                  th
+                    | Price
+              tbody
+              - each item in items
+                tr
+                  td 1
+                  td 13-08-2014
+                  td 45000
