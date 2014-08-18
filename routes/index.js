@@ -38,8 +38,11 @@ router.get('/logout', userModel.logout, userController.logout);
 var itemController=require('../controller/app/itemController');
 var itemModel=require('../model/app/itemModel');
 
+router.route('/item/New')
+	.get(globalModel.index, itemModel.index, itemController.index);
+
 router.route('/item')
-	.get(globalModel.index, itemModel.index, itemController.index)
+	.get(globalModel.index, itemModel.show, itemController.show)
 	.post(globalModel.index, itemModel.save, itemController.save);
 	// .get('/New', itemModel.index, itemController.index)
 

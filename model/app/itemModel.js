@@ -4,6 +4,9 @@ exports.index=function(req, res, next){
 };
 
 exports.save=function(req, res, next){
-	console.log("yoyoyoyohmodel");
+	next();
+};
+
+exports.show=function(req, res, next){
 	next();
 };
