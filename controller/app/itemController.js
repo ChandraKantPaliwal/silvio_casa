@@ -122,7 +122,7 @@ exports.filter=function(req, res){
             var data = JSON.parse(data_final);
             console.log(data);
             if(response.statusCode == 200){
-                res.jsonp(200, {"items":items:data.items});
+                res.jsonp(200, {"items":data.items});
             } else {
                 res.send(data.success);
             }

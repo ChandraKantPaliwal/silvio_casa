@@ -68,4 +68,11 @@ var billController = require('../controller/app/billController');
 router.route('/bill')
 	.get(globalModel.index, billModel.new, billController.new);
 
+var invoiceModel = require('../model/app/invoiceModel');
+var invoiceController = require('../controller/app/invoiceController');
+
+router.route('/invoice')
+	.get(globalModel.index, invoiceModel.index, invoiceController.index);
+
+
 module.exports = router;

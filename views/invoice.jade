@@ -1,0 +1,97 @@
+extends layout
+
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | Welcome to #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="item")
+        | Invoice
+block page_content
+  .row
+    .col-md-12
+      .portlet.box.light-gray
+        .portlet-title
+          .caption
+            i.fa.fa-search
+            | Search Invoice
+        .portlet-body.form
+          form.form-horizontal#invoice(action='/invoice' method='post')
+            .form-body
+              .form-group
+                label.control-label.col-md-3
+                  | Search By
+                .col-md-4
+                  .radio-list
+                    label.radio-inline
+                      span
+                        input(type='radio' class='' name='search-type' value='yes' style='margin-left:0px;')
+                      | &nbsp;Customer Name
+                    label.radio-inline
+                      span
+                        input(type='radio' class='' name='search-type' value='no' style='margin-left:0px;' checked)
+                      | &nbsp;Id
+              .form-group
+                label.control-label.col-md-3
+                  | Customer Name
+                  span.required
+                    | *
+                .col-md-4
+                  input.form-control#customer-name(name='name')
+              .form-group
+                label.control-label.col-md-3
+                  | Invoice Number
+                  span.required
+                    | *
+                .col-md-4
+                  input.form-control#invoice-number(name='name')
+            .col-md-offset-3.col-md-9
+              button.btn.green(type="button" id='search' name="btn_search" style="margin-bottom:20px") Submit
+        .portlet-body      
+          table#invoice_table.table.table-striped.table-bordered.table-hover.table-full-width
+            thead
+              tr
+                th
+                  | Invoice Number
+                th
+                  | Customer Name
+                th
+                  | Invoice Date
+                th
+                  | Advance
+                th
+                  | Total Amount
+                th
+                  | Actions
+                
+            tbody
+              tr
+                td
+                  | dsf
+                td
+                  | dffd
+                td
+                  | df
+                td
+                  | df
+                td
+                  | dfdf
+                td
+                  | fdfd
+                 
