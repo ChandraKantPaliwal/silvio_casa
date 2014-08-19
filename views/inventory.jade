@@ -21,12 +21,83 @@ block breadcrumb
     li
       i.fa.fa-home
     li
-      a(href="item")
-        | Item
-      i.fa.fa-angle-right
-    li
-      a(href="item")
-        | New
-      i.fa.fa-angle-right
+      a(href="inventory")
+        | Inventory
 
 block page_content
+  .row
+    .col-md-12
+      .portlet.box.light-grey
+        .portlet-title
+          .caption
+            i.fa.fa-reorder
+            | Stock
+          .tools
+        .portlet-body
+          .tabbable-custom
+            ul.nav.nav-tabs
+              - each type, i in itemTypes
+                -if(i==0)
+                  li(class='active')
+                    a(href="##{type.id}", data-toggle="tab")
+                      | #{type.name}
+                -else
+                  li
+                    a(href='##{type.id}', data-toggle="tab")
+                      | #{type.name}
+            .tab-content
+              - each type, j in itemTypes
+                  .tab-pane(id='#{type.id}' class=(j == 0)?'active':'')
+                    .table-responsive
+                      table.table.table-striped.table-bordered.table-advance.table-hover
+                        tbody
+                          tr
+                            td
+                              b Weight : 
+                            td(colspan="2")
+                              - var weight=0;
+                              - each stock, k in inventories
+                                - if(type.id==stock.item_type_id)
+                                  -weight+=stock.weight
+                              | #{weight}
+                              b GMS
+                          tr
+                            td
+                              b Quantity :
+                            td(colspan="2")
+                              - var quantity=0;
+                              - each stock, k in inventories
+                                - if(type.id==stock.item_type_id)
+                                  -quantity+=stock.quantity
+                              | #{quantity}
+                      table#sample_2.table.table-striped.table-bordered.table-hover
+                        thead
+                          tr
+                            th
+                              | Sr No.
+                            th
+                              | Item Name
+                            th
+                              | Item Code
+                            th
+                              | Item Type
+                            th
+                              | Weight
+                            th
+                              | Quantity
+                            th
+                              | Making Charges
+                            th
+                              | Fixed Charges
+                        tbody
+                          - each stock, k in inventories
+                            - if(type.id==stock.item_type_id)
+                              tr
+                                td #{k+1}
+                                td #{stock.name}
+                                td #{stock.code}
+                                td #{stock.item_type_name}
+                                td #{stock.weight}
+                                td #{stock.quantity}
+                                td #{stock.making_charges}
+                                td #{stock.fixed_price}
