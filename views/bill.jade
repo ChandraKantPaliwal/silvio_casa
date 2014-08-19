@@ -76,8 +76,7 @@ block page_content
                   tr
                     th
                     th
-                      .prefetch
-                        input.form-control.item-code.typeahead(type="text", autocomplete="off", name="item_code[]")
+                      input.col-md-12.form-control(type='text', name='item_code[]', placeholder='Search cities...', class='item-code typeahead', autocomplete='off')
                     th
                       input.form-control.item-name(type="text", autocomplete="off", name="item_name[]")
                     th
@@ -88,7 +87,7 @@ block page_content
                       input.form-control.item-price(type="text", readonly="", name="item_price[]")
                 tfoot
                   tr
-                    td &#160;
+                    td
                     td(colspan="3")
                       button#add_more_rows.btn.btn-default(type="button") Add
                     td Mode of Payment
@@ -101,7 +100,7 @@ block page_content
                           input(type="radio", name="mode_payment", value="cheque")
                           | Cheque
                   tr
-                    td(colspan="4") &#160;
+                    td(colspan="4")
                     td Total Price
                     td
                       input.form-control.total-bill-price(type="text", name="total_bill_price", readonly="", value="0")
@@ -151,18 +150,17 @@ block page_content
 
 
 block doc_ready
-  script(type='text/javascript', src='/assets/plugins/typeahead/typeahead.min.js')
+  script(type='text/javascript', src='/assets/plugins/bootstrap-typeahead/jquery.mockjax.js')
+  script(type='text/javascript', src='/assets/plugins/bootstrap-typeahead/bootstrap-typeahead.js')
   script.
     $(document).ready(function(){
       $('#add_more_rows').click(function(){
         $('.bill-body').append("<tr><th></th><th><div class='prefetch'><input type='text' autocomplete='off' name='item_code[]' class='form-control item-code typeahead'/></th><th><input type='text' autocomplete='off' name='item_name[]' class='form-control item-name'/></th><th><input type='text' name='item_weight[]' class='form-control item-weight'/></th><th><input type='text' autocomplete='off' name='item_quantity[]' class='form-control item-quantity'/></th><th><input type='text' readonly=' name='item_price[]' class='form-control item-price'/></th></tr>");
+        typeaheadTest();
+        selectedValue();
       });
-
-      $('input .typeahead').typeahead({
-        name:'hint',
-        remote:'/item/'+$(this).val();
-      });
-
+      typeaheadTest();
+      selectedValue();
     });
 
 
