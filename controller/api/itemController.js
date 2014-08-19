@@ -93,3 +93,50 @@ exports.delete=function(req,res){
 				}
 			});
 };
+exports.findItemById=function(req,res){
+connection.query("SELECT `items`.`id`, `items`.`name`, `items`.`code`, `item_types`.`name` as `item_types_name`,`item_types`.`id` as `item_types_id`, `items`.`weight`, `items`.`quantity`, `items`.`making_charges`, `items`.`fixed_price` FROM `items` INNER JOIN `item_types` ON `items`.`item_types_id`=`item_types`.`id` AND items.`id`='"+req.params.item_id+"'",function(err,info){
+				if(err)
+				{
+					console.log(err);
+					res.jsonp(500,{"success":"false","message":"internal error"});
+				}
+				else if(info.length>0)
+				{
+					res.jsonp(200,{"success":"true","message":"","item":info});
+				}
+				else
+				{
+					res.jsonp(404,{"success":"false","message":"Item not found"});
+				}
+			});
+};
+exports.findItemByCode=function(req,res){
+connection.query("SELECT `items`.`id`, `items`.`name`, `items`.`code`, `item_types`.`name` as `item_types_name`,`item_types`.`id` as `item_types_id`, `items`.`weight`, `items`.`quantity`, `items`.`making_charges`, `items`.`fixed_price` FROM `items` INNER JOIN `item_types` ON `items`.`item_types_id`=`item_types`.`id` AND items.`code`='"+req.params.item_code+"'",function(err,info){
+				if(err)
+				{
+					console.log(err);
+					res.jsonp(500,{"success":"false","message":"internal error"});
+				}
+				else if(info.length>0)
+				{
+					res.jsonp(200,{"success":"true","message":"","item":info});
+				}
+				else
+				{
+					res.jsonp(404,{"success":"false","message":"Item not found"});
+				}
+			});
+};
+exports.searchItem=function(req,res){
+var query="SELECT * from `items` where `code` LIKE  '%"+req.params.item_code+"%' ";
+	connection.query(query, function(err, items){
+		if(err){
+			console.log(err);
+			res.jsonp(500,{"success":"false","message":"internal error"});
+		}
+		else{
+			res.jsonp(200,{"success":"true","message":"", "items":items});
+		}
+	});
+
+};

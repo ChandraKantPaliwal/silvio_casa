@@ -68,7 +68,8 @@ router.route('/item')
 	.put(itemModel.update, itemController.update)
 	.delete(itemModel.delete,itemController.delete)
 
-
+router.route('/item/:item_id')
+	.get(itemModel.findItemById,itemController.findItemById)
 //on routes that are associated with silverPrice
 //-----------------------------------------------------
 router.route('/silverPrice')
@@ -85,11 +86,14 @@ router.route('/inventory')
 router.route('/invoice')
 	.get(invoiceModel.index, invoiceController.index)
 	//.post(invoiceModel.save, invoiceController.save)
-
 //on routes that are associated with itemsearch
 //-----------------------------------------------------
-router.route('/item/:item_code')
-	.get(billModel.search_item, billController.search_item)
+router.route('/itemFilter/:item_code')
+	.get(itemModel.searchItem, itemController.searchItem)
+
+router.route('/itemDetails/:item_code')
+	.get(itemModel.findItemByCode, itemController.findItemByCode)
+
 	//.post(invoiceModel.save, invoiceController.save)
 
 // on routes that end in /bears/:id
