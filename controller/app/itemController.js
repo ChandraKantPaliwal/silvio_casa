@@ -100,3 +100,33 @@ exports.show=function(req, res){
     });
     reqGet.end();
 };
+
+exports.filter=function(req, res){
+    var options = {
+        host : config.host,
+        port : config.appPort,
+        path : '/api/item/'+req.params.q,
+        method : 'GET',
+        headers: {
+        'Content-Type':'application/json',
+        'authentication_token': session.token
+        }
+    };
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(response.statusCode);
+            var data = JSON.parse(data_final);
+            console.log(data);
+            if(response.statusCode == 200){
+                res.jsonp(200, {"items":items:data.items});
+            } else {
+                res.send(data.success);
+            }
+        });
+    });
+    reqGet.end();
+};

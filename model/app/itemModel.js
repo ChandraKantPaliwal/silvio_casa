@@ -10,3 +10,7 @@ exports.save=function(req, res, next){
 exports.show=function(req, res, next){
 	next();
 };
+
+exports.filter=function(req, res, next){
+	next();
+};

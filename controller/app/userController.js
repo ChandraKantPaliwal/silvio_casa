@@ -1,6 +1,6 @@
 exports.index=function(req, res){
 	if(session.userId!=undefined){
-		res.render('index', { title: 'Silvio Casa', dashboard:'active', priv:session.userPriv, username:session.userName });
+		res.render('index', { title: 'Welcome to Silvio Casa', dashboard:'active', priv:session.userPriv, username:session.userName });
 	}
 	else{
 		res.redirect('/login');

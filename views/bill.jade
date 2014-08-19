@@ -1,0 +1,168 @@
+extends layout
+
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="/bill")
+        | Bill
+      i.fa.fa-angle-right
+    li
+      a(href="bill")
+        | New
+
+block page_content
+  .row
+    .col-md-12
+      .portlet.box.red
+        .portlet-title
+          .caption
+            i.fa.fa-cogs
+            | Billing
+        .portlet-body
+          form(action="bill", method="post")
+            div(style="padding:10px 10px 15px 30px")
+              .form-group
+                .row
+                  label.control-label.col-md-2 Customer Name
+                  .col-md-6
+                    input.form-control(type="text", autocomplete="off", name="customer_name")
+                  .col-md-4
+              .form-group
+                .row
+                  label.control-label.col-md-2 Address
+                  .col-md-6
+                    input.form-control(type="text", autocomplete="off", name="address")
+                  .col-md-4
+              .form-group
+                .row
+                  label.control-label.col-md-2 TIN No.
+                  .col-md-6
+                    input.form-control(type="text", autocomplete="off", name="tin_no")
+                  .col-md-4
+            .table-responsive
+              table.table.table-hover
+                thead
+                  tr
+                    th
+                    th
+                      | Item Code
+                    th
+                      | Item Name
+                    th
+                      | Weight
+                    th
+                      | Quantity
+                    th
+                      | Price
+                tbody.bill-body
+                  tr
+                    th
+                    th
+                      .prefetch
+                        input.form-control.item-code.typeahead(type="text", autocomplete="off", name="item_code[]")
+                    th
+                      input.form-control.item-name(type="text", autocomplete="off", name="item_name[]")
+                    th
+                      input.form-control.item-weight(type="text", name="item_weight[]")
+                    th
+                      input.form-control.item-quantity(type="text", autocomplete="off", name="item_quantity[]")
+                    th
+                      input.form-control.item-price(type="text", readonly="", name="item_price[]")
+                tfoot
+                  tr
+                    td &#160;
+                    td(colspan="3")
+                      button#add_more_rows.btn.btn-default(type="button") Add
+                    td Mode of Payment
+                    td
+                      .radio-list
+                        label.radio-inline
+                          input(type="radio", name="mode_payment", value="credit", checked="")
+                          | Credit
+                        label.radio-inline
+                          input(type="radio", name="mode_payment", value="cheque")
+                          | Cheque
+                  tr
+                    td(colspan="4") &#160;
+                    td Total Price
+                    td
+                      input.form-control.total-bill-price(type="text", name="total_bill_price", readonly="", value="0")
+                  tr
+                    td(colspan="4", style="text-align:right;vertical-align:middle;") Discount
+                    td
+                      input.form-control.discount-percent(type="text", autocomplete="off", name="discount_percent", placeholder="Discount percentage")
+                    td
+                      input.form-control.discount-value.prevent-enter(type="text", readonly="", placeholder="Discount value", name="discount_value", autocomplete="off")
+                  tr
+                    td(colspan="4")
+                    td Amount
+                    td
+                      input.form-control.amount(type="text", name="amount", readonly="", value="0")
+                  tr
+                    td(colspan="4")
+                    td(style="vertical-align: middle;") VAT Type
+                    td
+                      select#vat_type.form-control(name="vat_type")
+                        option(value="1") VAT Excluded
+                        option(value="2") VAT Included
+                  tr
+                    td(colspan="4", style="text-align:right;vertical-align:middle;") VAT
+                    td
+                      input.form-control.vat-percent(type="text", autocomplete="off", placeholder="VAT percentage", name="vat_percent")
+                    td
+                      input.form-control.vat-value.prevent-enter(type="text", readonly="", name="vat_value", autocomplete="off", value="0")
+                  tr
+                    td(colspan="4")
+                    td Total Payable Amount
+                    td
+                      input.form-control.total-payable-amount(type="text", name="total_payable_amount", readonly="", value="0")
+                  tr
+                    td(colspan="4")
+                    td Advance
+                    td
+                      input.form-control.advance(type="text", name="advance", value="0")
+                  tr
+                    td(colspan="4")
+                    td Balance
+                    td
+                      input.form-control.balance(type="text", name="balance", readonly="", value="0")
+                  tr
+                    td(colspan="5")
+                    td
+                      button.btn.btn-default(type="submit", name="generate_bill") Generate Bill
+
+
+block doc_ready
+  script(type='text/javascript', src='/assets/plugins/typeahead/typeahead.min.js')
+  script.
+    $(document).ready(function(){
+      $('#add_more_rows').click(function(){
+        $('.bill-body').append("<tr><th></th><th><div class='prefetch'><input type='text' autocomplete='off' name='item_code[]' class='form-control item-code typeahead'/></th><th><input type='text' autocomplete='off' name='item_name[]' class='form-control item-name'/></th><th><input type='text' name='item_weight[]' class='form-control item-weight'/></th><th><input type='text' autocomplete='off' name='item_quantity[]' class='form-control item-quantity'/></th><th><input type='text' readonly=' name='item_price[]' class='form-control item-price'/></th></tr>");
+      });
+
+      $('input .typeahead').typeahead({
+        name:'hint',
+        remote:'/item/'+$(this).val();
+      });
+
+    });
+
+

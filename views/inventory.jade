@@ -8,7 +8,7 @@ block meta_tags
   meta(content='', name='author')
 
 block title
-  | Welcome to #{title}
+  | #{title}
 
 block hint
   | Hint
@@ -70,7 +70,7 @@ block page_content
                                 - if(type.id==stock.item_type_id)
                                   -quantity+=stock.quantity
                               | #{quantity}
-                      table#sample_2.table.table-striped.table-bordered.table-hover
+                      table.table.table-striped.table-bordered.table-hover.sample_1
                         thead
                           tr
                             th
