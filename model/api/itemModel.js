@@ -89,7 +89,7 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 	}
 	else if(typeof req.body.price_value=="undefined"||req.body.price_value=="")
 	{
-		res.jsonp(404,{"success":"false","message":"Making charges not found"});
+		res.jsonp(404,{"success":"false","message":"Price Value not found"});
 	}
 	else
 	{
@@ -100,7 +100,18 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 			}
 			else if(user.length>0)
 			{
-				next();
+				connection.query("SELECT * from `items` where `code`='"+req.body.code+"'", function(err, item){
+					if(err){
+						console.log(err);
+						res.jsonp(500,{"success":"false","message":"internal error"});
+					}
+					else if(item.length>0){
+						res.jsonp(409,{"success":"true","message":"Item Code already exists"});
+					}
+					else{
+							next();
+					}
+				});
 			}
 			else
 			{

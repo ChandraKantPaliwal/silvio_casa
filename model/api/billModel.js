@@ -29,7 +29,7 @@ exports.save=function(req,res,next){
 	}
 	else if(typeof req.body.vat_percent=="undefined"||req.body.vat_percent=="")
 	{
-		res.jsonp(404,{"success":"false","message":"discount_percent not found"});
+		res.jsonp(404,{"success":"false","message":"vat_percent not found"});
 	}
 	else if(typeof req.body.advance=="undefined")
 	{
@@ -41,6 +41,8 @@ exports.save=function(req,res,next){
 	}
 	else
 	{
+		var flag=1;
+		var count=0;
 		connection.query("SELECT * from `users` where `id`='"+req.body.user_id+"' AND `authentication_token`='"+req.header("authentication_token")+"'", function(err, user){
 			if(err)
 			{
@@ -48,14 +50,41 @@ exports.save=function(req,res,next){
 			}
 			else if(user.length>0)
 			{
-				next();
+				
+				for(var i=0;i<req.body.items.length;i++)
+				{
+					count=i+1;
+					if(typeof req.body.items[i].id=="undefined"||req.body.items[i].id=="")
+					{
+						flag=0;
+						res.jsonp(404,{"success":"false","message":"item id not found for Item '"+count+"'"});
+					}
+					else if(typeof req.body.items[i].quantity=="undefined"||req.body.items[i].quantity=="")
+					{
+						flag=0;
+						res.jsonp(404,{"success":"false","message":"quantity not found for Item '"+count+"'"});
+					}
+					else if(typeof req.body.items[i].price=="undefined"||req.body.items[i].price=="")
+					{
+						flag=0;
+						res.jsonp(404,{"success":"false","message":"price not found for Item '"+count+"'"});
+					}
+					else if(typeof req.body.items[i].weight=="undefined"||req.body.items[i].weight=="")
+					{
+						flag=0;
+						res.jsonp(404,{"success":"false","message":"weight not found for Item '"+count+"'"});
+					}
+				}
+				if(flag)
+				{
+					next();
+				}
 			}
+			
 			else
 			{
 				res.jsonp(404,{"success":"false","message":"User not found"});
 			}
 		});
 	}
-
-	
 };

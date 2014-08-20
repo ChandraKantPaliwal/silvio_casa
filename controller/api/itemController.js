@@ -37,23 +37,23 @@ exports.index=function(req, res){
 
 //add_item
 exports.save=function(req, res){
-	var query="";
-	if(req.body.price_type=='no'){
-		query="Insert into `items`(`name`,`code`, `item_types_id`, `weight`, `quantity`, `making_charges`) values ('"+req.body.name+"','"+req.body.code+"','"+req.body.item_types_id+"','"+req.body.weight+"','"+req.body.quantity+"','"+req.body.price_value+"')";
-	}
-	else{
-		query="Insert into `items`(`name`,`code`, `item_types_id`, `weight`, `quantity`, `fixed_price`) values ('"+req.body.name+"','"+req.body.code+"','"+req.body.item_types_id+"','"+req.body.weight+"','"+req.body.quantity+"','"+req.body.price_value+"')";	
-	}
-	connection.query(query, function(err, item){
-		if(err){
-			console.log(err);
-			res.jsonp(500,{"success":"false","message":"internal error"});
-		}
-		else{
-			res.jsonp(200,{"success":"true","message":"Data Inserted Successfully"});
-		}
-	});
-
+			var query="";
+			if(req.body.price_type=='no'){
+				query="Insert into `items`(`name`,`code`, `item_types_id`, `weight`, `quantity`, `making_charges`) values ('"+req.body.name+"','"+req.body.code+"','"+req.body.item_types_id+"','"+req.body.weight+"','"+req.body.quantity+"','"+req.body.price_value+"')";
+			}
+			else{
+				query="Insert into `items`(`name`,`code`, `item_types_id`, `weight`, `quantity`, `fixed_price`) values ('"+req.body.name+"','"+req.body.code+"','"+req.body.item_types_id+"','"+req.body.weight+"','"+req.body.quantity+"','"+req.body.price_value+"')";	
+			}
+			connection.query(query, function(err, item){
+				if(err){
+					console.log(err);
+					res.jsonp(500,{"success":"false","message":"internal error"});
+				}
+				else{
+					res.jsonp(200,{"success":"true","message":"Data Inserted Successfully"});
+				}
+			});
+			
 };
 //update_item
 exports.update=function(req,res){
