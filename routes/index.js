@@ -47,6 +47,8 @@ router.route('/item')
 	// .get('/New', itemModel.index, itemController.index)
 router.route('/item/:q')
 		.get(globalModel.index, itemModel.filter, itemController.filter);
+router.route('/itemDetails/:code')
+		.get(globalModel.index, itemModel.detail, itemController.detail);
 
 
 var silverPriceModel = require('../model/app/silverPriceModel');
@@ -67,6 +69,7 @@ var billController = require('../controller/app/billController');
 
 router.route('/bill')
 	.get(globalModel.index, billModel.new, billController.new);
+	.post(globalModel.index, billModel.save, billController.save);
 
 var invoiceModel = require('../model/app/invoiceModel');
 var invoiceController = require('../controller/app/invoiceController');

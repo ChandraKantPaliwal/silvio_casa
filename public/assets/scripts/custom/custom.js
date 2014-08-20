@@ -97,136 +97,170 @@ $(document).ready(function(){
 
 function typeaheadTest(){
     $('.item-code').typeahead({
-        source: ['Toronto','Montreal','New York','Buffalo','Boston','Columbus','Dallas','Vancouver','Seattle', 'Los Angeles'
-        ]
+        source: function (query, process) {
+            $.getJSON('/item/'+query, function(data,success) {
+                process(data.items);
+            });
+        }
     });
+
+    selectedValue();
+    validateQuantity();
 }
+
 function selectedValue(){
-    $('.item-code').keyup(function(e){
-        if(e.keyCode==13){
-          bootbox.alert($(this).val());
+    $('.item-code').blur(function(){
+        var dom = $(this);
+        if($(this).val()==""){
+            dom.parent().parent().find('.item-name').val("");
+            dom.parent().parent().find('.item-weight').val("");
+            dom.parent().parent().find('.hidden_single_weight').val("");
+            dom.parent().parent().find('.item-price').val("");
+            dom.parent().parent().find('.actual-price').val("");
+            // dom.parent().parent().find('.hidden_original_price').val(data.items[0].price);
+            dom.parent().parent().find('.item-quantity').val("");
+            dom.parent().parent().find('.available-quantity').val("");
+        }
+        else{
+            $.getJSON('/itemDetails/'+$(this).val(), function(data,success) {
+                if(data.success){
+                    if(data.items[0].quantity==0)
+                    {
+                        bootbox.alert("Quantity not available");
+                        return;
+                    }
+                    dom.parent().parent().find('.item-name').val(data.items[0].name);
+                    dom.parent().parent().find('.item-weight').val(data.items[0].weight);
+                    dom.parent().parent().find('.hidden_single_weight').val(data.items[0].weight);
+                    var price=0;
+                    var total_price=0;
+                    if(data.items[0].making_charges>0){
+                        total_price=data.items[0].making_charges*data.items[0].weight*1;
+                        price=data.items[0].making_charges;
+                        dom.parent().parent().find('.actual-price').attr("making_charges", "yes");
+                    }
+                    else{
+                        dom.parent().parent().find('.actual-price').attr("making_charges", "no");
+                        total_price=data.items[0].fixed_price*1;
+                        price=data.items[0].fixed_price;
+                    }
+                    dom.parent().parent().find('.item-price').val(total_price);
+                    dom.parent().parent().find('.actual-price').val(price);
+                    // dom.parent().parent().find('.hidden_original_price').val(data.items[0].price);
+                    dom.parent().parent().find('.item-quantity').val(1);
+                    dom.parent().parent().find('.available-quantity').val(data.items[0].quantity);
+                    calculate_total_price();
+                }
+                else{
+                    bootbox.alert("Quantity not available");
+                }
+            });
         }
     });
 }
-// function typeaheadTest(){
-//     $('.item-code').typeahead({
-//         source: ['Toronto','Montreal','New York','Buffalo','Boston','Columbus','Dallas','Vancouver','Seattle', 'Los Angeles'
-//         ]
-//     });
+
+function validateQuantity(){
+    $('.item-quantity').blur(function(){;
+        if(parseFloat($(this).parent().find('.available-quantity').val())<parseFloat($(this).val())){
+            bootbox.alert("Quantity Not available in Stock");
+            $(this).val(1);
+        }
+        else{
+            console.log("yoyoyoyo");
+            if($(this).parent().parent().find('.actual-price').attr('making_charges')=="yes"){
+                console.log("making charges yes");
+                var price=$(this).parent().parent().find('.actual-price').val();
+                var weight=$(this).parent().parent().find('.item-weight').val();
+                var total_price=parseFloat(price)*parseFloat(weight)*parseFloat($(this).val());
+                $(this).parent().parent().find('.item-price').val(total_price);
+                calculate_total_price();
+            }
+            else{
+                var price=$(this).parent().parent().find('.actual-price').val();
+                var total_price=parseFloat(price)*parseFloat($(this).val());
+                $(this).parent().parent().find('.item-price').val(total_price);
+                calculate_total_price();
+            }
+        }
+    });
+}
+
+// function calculate_item_price(){
+//     console.log($(this).parent().parent().find('.actual-price').attr('making_charges'));
 // }
 
-// $.getJSON('/item/'+query, function(data,success) {
-//                 process(data);
-//             });
+function calculate_total_price(){
+    var total_price=0;
+    $('.item-price').each(function(index, element){
+        total_price=parseFloat(total_price)+parseFloat($(element).val());
+        $('.total-bill-price').val(total_price);
+        $('.amount').val(total_price);
+        $('.total-payable-amount').val(total_price);
+        $('.balance').val(total_price);
+    });
+}
 
-// function typeaheadIntialize(){
-//     $('.item-code').typeahead({
-//         source: function (query, process) {
-//             $.getJSON('/item/'+query, function(data,success) {
-//                 process(data);
-//             });
-//         }    
-//     });
-
-//     $(".prevent-enter").keypress(function(e){
-//         if(e.keyCode==13)
-//             e.preventDefault(); 
-//     });    
-
-//    $(".item-code").keyup(function(e){
-//         if(e.keyCode == 13)
-//         {
-//             var dom = $(this);
-//             var codeValue=$(this).val();
-//             $.get('itemDetail/:'+codeValue, function(data,success) {
-
-//                 if(data[0].quantity==0)
-//                 {
-//                     bootbox.alert("Quantity not available");
-//                     return;
-//                 }
-//                 dom.parent().parent().find('.item-name').val(data[0].name);
-//                 dom.parent().parent().find('.item-weight').val(data[0].weight);
-//                 dom.parent().parent().find('.hidden_single_weight').val(data[0].weight);
-//                 dom.parent().parent().find('.item-price').val(data[0].price);
-//                 dom.parent().parent().find('.hidden_original_price').val(data[0].price);
-//                 dom.parent().parent().find('.item-quantity').val(1);
-//                 // calculation();
-//             });
-//         }
-//    });
-
-//    $(".item-quantity").keyup(function(e){
-        
-//             // var dom = $(this);
-//             // var quantity_value=0;
-
-//             // if(dom.val()!='')
-//             //     quantity_value=$(this).val();
-//             // else
-//             //     return;
-
-//             // if(quantity_value<1)
-//             // {
-//             //     $(this).val(1);
-//             //     return;
-//             // }
-//             // var item_code =dom.parent().parent().find('.item-code').val();
-
-//             // dom.parent().parent().find('.item-weight').val(quantity_value*dom.parent().parent().find('.hidden_single_weight').val());
-//             //// DemandQty:quantity_value
-//             // $.getJSON("itemDetail/"+item_code},function(data,status){
-//             //     if(data.status!='avail')    
-//             //     {
-//             //         $.gritter.add({
-//             //             title: 'Information!',
-//             //             text: 'Quantity exceeds avialable quantity',
-//             //             image: './assets/img/sign-error-icon.png',
-//             //             sticky: false,
-//             //             time: '2000',
-//             //             class_name: 'my-sticky-class'
-//             //         });
-//             //         dom.val(data.quantity);
-//             //     }
-//             //     else
-//             //     {
-//             //         var price_value =dom.parent().parent().find('.hidden_original_price').val();
-//             //         dom.parent().parent().find('.item-price').val(parseFloat(price_value*quantity_value));
-//             //         var final_bill_price=0;
-//             //         $(".item-price").each(function(i,data){
-//             //             if($(this).val()!='')
-//             //                 final_bill_price+=parseFloat($(this).val());
-//             //         }); 
-//             //         calculation();
-//             //     }
-//             // });
-//    });
+// function discount_calcuate(percent,amount){
+//     var discount_amount=
 // }
 
+$(document).ready(function(){
+    $('.discount-percent').blur(function(){
+        var total_price=$('.total-bill-price').val();
+        var discount_amount=parseFloat(total_price)*parseFloat($(this).val())/100;
+        $('.discount-value').val(discount_amount);
+        var amount_after_discount=parseFloat(total_price)-parseFloat(discount_amount);
+        $('.amount').val(amount_after_discount);
+        $('.amount').val(amount_after_discount);
+        $('.total-payable-amount').val(amount_after_discount);
+        $('.balance').val(amount_after_discount);
+        $('.vat-percent').blur();
+    });
 
-function loadTable(id){
-    var oTable = $('#'+id).dataTable( {           
-            "aoColumnDefs": [
-                { "aTargets": [ 0 ] }
-            ],
-            "aaSorting": [[1, 'asc']],
-             "aLengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            // set the initial value
-            "iDisplayLength": 10,
-        });
+    $('#vat_type').change(function(){
+        if($(this).val()==2){
+            $('.vat-percent').attr('readonly','');
+            $('.vat-percent').val(0);
+            $('.vat-value').val(0);
+            $('.vat-percent').blur();
+        }
+        else{
+            $('.vat-percent').removeAttr('readonly');
+        }
+    });
 
-        jQuery('#sample_2_wrapper .dataTables_filter input').addClass("form-control input-small input-inline"); // modify table search input
-        jQuery('#sample_2_wrapper .dataTables_length select').addClass("form-control input-small"); // modify table per page dropdown
-        jQuery('#sample_2_wrapper .dataTables_length select').select2(); // initialize select2 dropdown
+    $('.discount-value').change(function(){
+        var total_price=$('.amount').val();
+        $('.amount').val(total_price);
+        $('.total-payable-amount').val(total_price);
+        $('.balance').val(total_price);
+        $('.vat-percent').blur();
+    });
 
-        $('#sample_2_column_toggler input[type="checkbox"]').change(function(){
-            /* Get the DataTables object again - this is not a recreation, just a get of the object */
-            var iCol = parseInt($(this).attr("data-column"));
-            var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-            oTable.fnSetColumnVis(iCol, (bVis ? false : true));
-        });
-    }
+    $('.vat-percent').blur(function(){
+        var vat_amount=parseFloat($('.amount').val())*parseFloat($(this).val())/100;
+        $('.vat-value').val(vat_amount);
+        $('.total-payable-amount').val(parseFloat($('.amount').val())+vat_amount);
+        $('.balance').val(parseFloat($('.total-payable-amount').val())- parseFloat($('.advance').val()));
+        $('.advance').blur();
+    });
+    $('.advance').blur(function(){
+        $('.balance').val(parseFloat($('.total-payable-amount').val())-parseFloat($('.advance').val()));
+
+    });
+    $('.validate-field').keyup(function(e){
+        if(isNaN($(this).val())){
+            bootbox.alert("please enter the numeric value only");
+            if($(this).hasClass('item-quantity')){
+                $(this).val(1);
+            }
+            else{
+                $(this).val(0);
+            }
+        }
+    });
+    $('.generate_bill').click(function(){
+        $('form').submit();
+    });
+});
 
