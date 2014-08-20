@@ -94,7 +94,10 @@ router.route('/itemFilter/:item_code')
 router.route('/itemDetails/:item_code')
 	.get(itemModel.findItemByCode, itemController.findItemByCode)
 
-	//.post(invoiceModel.save, invoiceController.save)
+//on routes that are associated with bill
+//-----------------------------------------------------
+router.route('/bill')
+	.post(billModel.save, billController.save)
 
 // on routes that end in /bears/:id
 // ----------------------------------------------------
