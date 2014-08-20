@@ -105,7 +105,7 @@ exports.filter=function(req, res){
     var options = {
         host : config.host,
         port : config.appPort,
-        path : '/api/item/'+req.params.q,
+        path : '/api/itemFilter/'+req.params.q,
         method : 'GET',
         headers: {
         'Content-Type':'application/json',
@@ -122,9 +122,47 @@ exports.filter=function(req, res){
             var data = JSON.parse(data_final);
             console.log(data);
             if(response.statusCode == 200){
-                res.jsonp(200, {"items":data.items});
+                var itemCodes=[];
+                for (var i =0; i<data.items.length; i++) {
+                    itemCodes.push(data.items[i].code);
+                    console.log(data.items[i].code);
+                    if(i==data.items.length-1){
+                        res.jsonp(200, {"items":itemCodes});
+                    }
+                };
+                // res.jsonp(200, {"items":data.items});
             } else {
                 res.send(data.success);
+            }
+        });
+    });
+    reqGet.end();
+};
+
+exports.detail=function(req, res){
+    var options = {
+        host : config.host,
+        port : config.appPort,
+        path : '/api/itemDetails/'+req.params.code,
+        method : 'GET',
+        headers: {
+        'Content-Type':'application/json',
+        'authentication_token': session.token
+        }
+    };
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(response.statusCode);
+            var data = JSON.parse(data_final);
+            console.log(data);
+            if(response.statusCode == 200){
+                res.jsonp(200, {"success":true, "items":data.item});
+            } else {
+                res.jsonp(200, {"success":false, "message":data.message});
             }
         });
     });

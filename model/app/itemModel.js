@@ -14,3 +14,7 @@ exports.show=function(req, res, next){
 exports.filter=function(req, res, next){
 	next();
 };
+
+exports.detail=function(req, res, next){
+	next();
+};

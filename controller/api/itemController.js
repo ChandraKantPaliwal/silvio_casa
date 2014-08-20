@@ -128,7 +128,7 @@ connection.query("SELECT `items`.`id`, `items`.`name`, `items`.`code`, `item_typ
 			});
 };
 exports.searchItem=function(req,res){
-var query="SELECT * from `items` where `code` LIKE  '%"+req.params.item_code+"%' ";
+var query="SELECT `code` from `items` where `code` LIKE  '%"+req.params.item_code+"%' ";
 	connection.query(query, function(err, items){
 		if(err){
 			console.log(err);

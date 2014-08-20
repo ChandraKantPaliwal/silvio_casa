@@ -37,7 +37,7 @@ block page_content
             i.fa.fa-cogs
             | Billing
         .portlet-body
-          form(action="bill", method="post")
+          form(action="#", method="post")
             div(style="padding:10px 10px 15px 30px")
               .form-group
                 .row
@@ -76,15 +76,17 @@ block page_content
                   tr
                     th
                     th
-                      input.col-md-12.form-control(type='text', name='item_code[]', placeholder='Search cities...', class='item-code typeahead', autocomplete='off')
+                      input.col-md-12.form-control(type='text', name='item_code[]', placeholder='Search item...', class='item-code typeahead', autocomplete='off')
                     th
-                      input.form-control.item-name(type="text", autocomplete="off", name="item_name[]")
+                      input.form-control.item-name(type="text", autocomplete="off", name="item_name[]" readonly)
                     th
-                      input.form-control.item-weight(type="text", name="item_weight[]")
+                      input.form-control.item-weight(type="text", name="item_weight[]" readonly)
                     th
-                      input.form-control.item-quantity(type="text", autocomplete="off", name="item_quantity[]")
+                      input.form-control.item-quantity.validate-field(type="text", autocomplete="off", name="item_quantity[]")
+                      input.form-control.available-quantity(type="hidden", autocomplete="off")
                     th
                       input.form-control.item-price(type="text", readonly="", name="item_price[]")
+                      input.form-control.actual-price(type="hidden", autocomplete="off")
                 tfoot
                   tr
                     td
@@ -94,10 +96,10 @@ block page_content
                     td
                       .radio-list
                         label.radio-inline
-                          input(type="radio", name="mode_payment", value="credit", checked="")
+                          input(type="radio", name="payment_mode", value="credit", checked="")
                           | Credit
                         label.radio-inline
-                          input(type="radio", name="mode_payment", value="cheque")
+                          input(type="radio", name="payment_mode", value="cheque")
                           | Cheque
                   tr
                     td(colspan="4")
@@ -107,14 +109,14 @@ block page_content
                   tr
                     td(colspan="4", style="text-align:right;vertical-align:middle;") Discount
                     td
-                      input.form-control.discount-percent(type="text", autocomplete="off", name="discount_percent", placeholder="Discount percentage")
+                      input.form-control.discount-percent.validate-field(type="text", autocomplete="off", name="discount_percent", placeholder="Discount percentage")
                     td
                       input.form-control.discount-value.prevent-enter(type="text", readonly="", placeholder="Discount value", name="discount_value", autocomplete="off")
                   tr
                     td(colspan="4")
                     td Amount
                     td
-                      input.form-control.amount(type="text", name="amount", readonly="", value="0")
+                      input.form-control.amount(type="text", name="amount", readonly, value="0")
                   tr
                     td(colspan="4")
                     td(style="vertical-align: middle;") VAT Type
@@ -125,9 +127,9 @@ block page_content
                   tr
                     td(colspan="4", style="text-align:right;vertical-align:middle;") VAT
                     td
-                      input.form-control.vat-percent(type="text", autocomplete="off", placeholder="VAT percentage", name="vat_percent")
+                      input.form-control.vat-percent.validate-field(type="text", autocomplete="off", placeholder="VAT percentage", name="vat_percent")
                     td
-                      input.form-control.vat-value.prevent-enter(type="text", readonly="", name="vat_value", autocomplete="off", value="0")
+                      input.form-control.vat-value(type="text", readonly="", name="vat_value", autocomplete="off", value="0")
                   tr
                     td(colspan="4")
                     td Total Payable Amount
@@ -137,7 +139,7 @@ block page_content
                     td(colspan="4")
                     td Advance
                     td
-                      input.form-control.advance(type="text", name="advance", value="0")
+                      input.form-control.advance.validate-field(type="text", name="advance", value="0")
                   tr
                     td(colspan="4")
                     td Balance
@@ -146,7 +148,7 @@ block page_content
                   tr
                     td(colspan="5")
                     td
-                      button.btn.btn-default(type="submit", name="generate_bill") Generate Bill
+                      button.btn.btn-default(type="button", name="generate_bill" class="generate_bill") Generate Bill
 
 
 block doc_ready
@@ -155,12 +157,8 @@ block doc_ready
   script.
     $(document).ready(function(){
       $('#add_more_rows').click(function(){
-        $('.bill-body').append("<tr><th></th><th><div class='prefetch'><input type='text' autocomplete='off' name='item_code[]' class='form-control item-code typeahead'/></th><th><input type='text' autocomplete='off' name='item_name[]' class='form-control item-name'/></th><th><input type='text' name='item_weight[]' class='form-control item-weight'/></th><th><input type='text' autocomplete='off' name='item_quantity[]' class='form-control item-quantity'/></th><th><input type='text' readonly=' name='item_price[]' class='form-control item-price'/></th></tr>");
+        $('.bill-body').append("<tr><th></th><th><input type='text' autocomplete='off' name='item_code[]' class='form-control item-code typeahead' placeholder='Search item...'/></th><th><input type='text' autocomplete='off' name='item_name[]' readonly class='form-control item-name'/></th><th><input type='text' name='item_weight[]' readonly class='form-control item-weight'/></th><th><input type='text' autocomplete='off' name='item_quantity[]' class='form-control item-quantity validate-field'/><input type='hidden' autocomplete='off' class='form-control available-quantity'/></th><th><input type='text' readonly=' name='item_price[]' class='form-control item-price'/><input type='hidden' autocomplete='off' class='form-control actual-price'/></th></tr>");
         typeaheadTest();
-        selectedValue();
       });
       typeaheadTest();
-      selectedValue();
     });
-
-
