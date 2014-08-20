@@ -23,3 +23,18 @@ exports.save=function(req,res){
 		}
 	});
 };
+exports.billDetails=function(req,res){
+
+	var	query="SELECT * from `orders` where Date(`created_at`) BETWEEN '"+req.params.startDate+"' AND '"+req.params.endDate+"'";
+				console.log(query);
+				connection.query(query, function(err, info){
+					if(err){
+						console.log(err);
+						res.jsonp(500,{"success":"false","message":"internal error"});
+					}
+					else if(info.length>0){
+						console.log(info);
+						res.jsonp(200,{"success":"true","message":"Fetched Successfully","orders":info});
+					}
+				});
+};

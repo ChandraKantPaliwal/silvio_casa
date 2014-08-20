@@ -99,6 +99,8 @@ router.route('/itemDetails/:item_code')
 router.route('/bill')
 	.post(billModel.save, billController.save)
 
+router.route('/bill/:startDate/:endDate')
+	.get(billModel.billDetails,billController.billDetails)
 // on routes that end in /bears/:id
 // ----------------------------------------------------
 // router.route('/user/:id')
