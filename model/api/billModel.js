@@ -88,9 +88,9 @@ exports.save=function(req,res,next){
 		});
 	}
 };
-<<<<<<< HEAD
-exports.delete=function(req, res, next){
-if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
+
+exports.remove=function(req, res, next){
+	if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
 	{
 		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
 	}
@@ -121,24 +121,17 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 					{
 						res.jsonp(404,{"success":"false","message":"Order does not exists"});	
 					}
-			});
+				});
 			}
-
 			else
 			{
 				res.jsonp(404,{"success":"false","message":"User not found"});
 			}
 		});
-	}	
-=======
-exports.remove=function(req, res, next){
-					console.log("model api called");
-
-	next();
->>>>>>> bf1e4f690e9a5cfefffee072d3382566904b8804
+	}
 };
 exports.billDetails=function(req,res,next){
-if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
+	if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
 	{
 		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
 	}
@@ -166,7 +159,7 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 	}	
 };
 exports.billDetailsById=function(req,res,next){
-if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
+	if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
 	{
 		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
 	}
@@ -191,6 +184,5 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 				res.jsonp(404,{"success":"false","message":"User not found"});
 			}
 		});
-	}	
-
+	}
 };

@@ -82,10 +82,10 @@ router.route('/inventory')
 //on routes that are associated with itemsearch
 //-----------------------------------------------------
 router.route('/itemFilter/:item_code')
-	.get(itemModel.searchItem, itemController.searchItem)
+	.get(itemModel.searchItem, itemController.searchItem);
 
 router.route('/itemDetails/:item_code')
-	.get(itemModel.findItemByCode, itemController.findItemByCode)
+	.get(itemModel.findItemByCode, itemController.findItemByCode);
 
 //on routes that are associated with bill
 //-----------------------------------------------------
@@ -93,12 +93,8 @@ router.route('/bill')
 	.post(billModel.save, billController.save);
 
 router.route('/bill/:id')
-<<<<<<< HEAD
 	.get(billModel.billDetailsById,billController.billDetailsById)
-	.delete(billModel.delete, billController.delete)
-=======
-	.delete(billModel.remove, billController.remove)
->>>>>>> bf1e4f690e9a5cfefffee072d3382566904b8804
+	.delete(billModel.remove, billController.remove);
 
 
 //on routes that are associated with invoice
