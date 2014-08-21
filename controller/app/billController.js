@@ -119,6 +119,36 @@ exports.show=function(req, res){
     reqGet.end();
 };
 
+exports.detail=function(req, res){
+    var options = {
+        host : config.host,
+        port : config.appPort,
+        path : '/api/bill/'+req.params.id,
+        method : 'GET',
+        headers: {
+        'Content-Type':'application/json',
+        'authentication_token': session.token
+        }
+    };
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(response.statusCode);
+            var data = JSON.parse(data_final);
+            console.log(data);
+            if(response.statusCode == 200){
+                res.render('viewBill', { title: 'View Bill', bill:'active', priv:session.userPriv, username:session.userName, order:data.order, items:data.items});
+            } else {
+                res.jsonp(200, {"success":false, "message":data.message});
+            }
+        });
+    });
+    reqGet.end();
+};
+
 exports.update = function(req, res){
 	req.body.user_id = session.userId;
 	var dGet = querystring.stringify(req.body);
@@ -149,3 +179,4 @@ exports.update = function(req, res){
 	reqPost.write(dGet);
 	reqPost.end();
 };
+

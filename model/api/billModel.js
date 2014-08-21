@@ -195,7 +195,7 @@ exports.update=function(req,res,next){
 	{
 		res.jsonp(404,{"success":"false","message":"user_id not found"});
 	}
-	else if(typeof req.params.id=="undefined"||req.params.id=='')
+	else if(typeof req.body.id=="undefined"||req.body.id=='')
 	{
 		res.jsonp(404,{"success":"false","message":"Item id not found"});	
 	}
@@ -216,7 +216,7 @@ exports.update=function(req,res,next){
 			}
 			else if(user.length>0)
 			{
-				connection.query("SELECT * from `orders` where `id`='"+req.params.id+"'", function(err, order){
+				connection.query("SELECT * from `orders` where `id`='"+req.body.id+"'", function(err, order){
 					if(err)
 					{
 						res.jsonp(500,{"success":"false","message":"internal error"});

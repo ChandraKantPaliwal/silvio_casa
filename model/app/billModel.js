@@ -10,6 +10,9 @@ exports.remove=function(req, res, next){
 exports.show=function(req, res, next){
 	next();
 }
+exports.detail=function(req, res, next){
+	next();
+}
 exports.update=function(req, res, next){
 	next();
 }

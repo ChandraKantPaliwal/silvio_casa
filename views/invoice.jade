@@ -99,7 +99,7 @@ block page_content
                     a.btn.default.red-stripe.edit-bill(bill-id="#{invoice.id}" data-toggle='modal' href='#basic')
                       i.fa.fa-edit
                       | Edit
-                    button.btn.default.red-stripe.view-order(bill-id="#{invoice.id}")
+                    a.btn.default.red-stripe.view-order(target='blank', href="viewBill/#{invoice.id}")
                       i.fa.fa-bars
                       | View
             #basic.modal.fade(tabindex="-1", role="basic", aria-hidden="true", style="display: none;")
@@ -122,7 +122,7 @@ block page_content
                           .col-md-6
                             input#address.form-control(type="text", name="address", autocomplete="off", value="")
                   .modal-footer
-                    button.btn.default(type="button", data-dismiss="modal") Close
+                    button.btn.default#close-modal(type="button", data-dismiss="modal") Close
                     button#update_invoice.btn.btn-success.update_invoice(name="update_invoice", type="button") Update
                 // /.modal-content
               // /.modal-dialog
@@ -153,8 +153,9 @@ block doc_ready
       });
       $('#update_invoice').click(function(){
         var val=$('#form_sample_1').serialize();
-        $.put("/bill/",val, function(data) {
+        $.post("/updateBill/",val, function(data) {
             if(data.success == "true"){
+                $('#close-modal').click();
                 $("#update_invoice").html("Updating...");
                 bootbox.alert(data.message, function(){
                   window.location.replace("/invoice");

@@ -90,12 +90,13 @@ router.route('/itemDetails/:item_code')
 //on routes that are associated with bill
 //-----------------------------------------------------
 router.route('/bill')
-	.post(billModel.save, billController.save);
+	.post(billModel.save, billController.save)
+	.put(billModel.update,billController.update);
 
 router.route('/bill/:id')
 	.get(billModel.billDetailsById,billController.billDetailsById)
-	.delete(billModel.remove, billController.remove)
-	.put(billModel.update,billController.update);
+	.delete(billModel.remove, billController.remove);
+	
 
 //	.get(billModel.detailsByCurDate,billController.detailsByCurDate);
 

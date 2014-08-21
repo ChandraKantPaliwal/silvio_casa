@@ -69,11 +69,15 @@ var billController = require('../controller/app/billController');
 
 router.route('/bill')
 	.get(globalModel.index, billModel.new, billController.new)
-	.post(globalModel.index, billModel.save, billController.save)
-	.put(globalModel.index, billModel.update, billController.update);
+	.post(globalModel.index, billModel.save, billController.save);
+router.route('/updateBill')
+	.post(globalModel.index, billModel.update, billController.update);
 
 router.route('/bill/:id')
 	.get(globalModel.index, billModel.show, billController.show);
+
+router.route('/viewBill/:id')
+	.get(globalModel.index, billModel.detail, billController.detail);
 
 router.route('/deleteBill/:id')
 	.get(globalModel.index, billModel.remove, billController.remove);

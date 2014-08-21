@@ -95,7 +95,7 @@ exports.billDetailsById=function(req,res){
 
 };
 exports.update=function(req,res){
-	var query=" UPDATE `orders` set `customer_name`='"+req.body.customer_name+"',`address`='"+req.body.address+"' where `id`='"+req.params.id+"'"
+	var query=" UPDATE `orders` set `customer_name`='"+req.body.customer_name+"',`address`='"+req.body.address+"' where `id`='"+req.body.id+"'"
 	connection.query(query, function(err, order){
 				if(err)
 				{
@@ -107,7 +107,7 @@ exports.update=function(req,res){
 				else
 				{
 					//console.log(user);
-					res.jsonp(404, {"success":"false", "message": "Update Unsuccessful"});
+					res.jsonp(422, {"success":"false", "message": "Update Unsuccessful"});
 				}
 			});
 };
