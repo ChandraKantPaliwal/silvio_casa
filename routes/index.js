@@ -71,6 +71,9 @@ router.route('/bill')
 	.get(globalModel.index, billModel.new, billController.new)
 	.post(globalModel.index, billModel.save, billController.save);
 
+router.route('/bill/:id')
+	.get(globalModel.index, billModel.show, billController.show);
+
 router.route('/deleteBill/:id')
 	.get(globalModel.index, billModel.remove, billController.remove);
 

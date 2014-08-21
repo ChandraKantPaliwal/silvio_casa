@@ -94,8 +94,8 @@ router.route('/bill')
 
 router.route('/bill/:id')
 	.get(billModel.billDetailsById,billController.billDetailsById)
-	.delete(billModel.remove, billController.remove)
-	.put(billModel.update,billController.update);
+	.delete(billModel.remove, billController.remove);
+	// .put(billModel.update,billController.update);
 
 //	.get(billModel.detailsByCurDate,billController.detailsByCurDate);
 

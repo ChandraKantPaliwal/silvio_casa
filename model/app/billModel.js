@@ -9,3 +9,6 @@ exports.remove=function(req, res, next){
 	console.log("model called");
 	next();
 }
+exports.show=function(req, res, next){
+	next();
+}
