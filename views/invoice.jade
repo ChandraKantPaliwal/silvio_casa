@@ -106,7 +106,7 @@ block doc_ready
   script.
     $(document).ready(function(){
       $('.order-delete').click(function(){
-        $.post("/bill/"+$(this).attr('bill-id'), function(data) {
+        $.get("/bill/"+$(this).attr('bill-id'), function(data) {
             if(data.success == "true"){
                 // $(".generate_bill").html("Bill Generated");
                 bootbox.alert(data.message);
