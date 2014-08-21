@@ -88,3 +88,33 @@ exports.remove=function(req, res){
 	reqPost.write(dGet);
 	reqPost.end();
 };
+
+exports.show=function(req, res){
+    var options = {
+        host : config.host,
+        port : config.appPort,
+        path : '/api/bill/'+req.params.id,
+        method : 'GET',
+        headers: {
+        'Content-Type':'application/json',
+        'authentication_token': session.token
+        }
+    };
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(response.statusCode);
+            var data = JSON.parse(data_final);
+            console.log(data);
+            if(response.statusCode == 200){
+                res.jsonp(200, {"success":true, "items":data.item});
+            } else {
+                res.jsonp(200, {"success":false, "message":data.message});
+            }
+        });
+    });
+    reqGet.end();
+};

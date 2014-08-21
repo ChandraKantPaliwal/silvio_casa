@@ -119,12 +119,13 @@ block doc_ready
             }
         });
       });
-      $('.order-edit').click(function(){
+      $('.edit-bill').click(function(){
         $(this).html("Editing...");
         $.get("/bill/"+$(this).attr('bill-id'), function(data) {
             if(data.success == "true"){
                 bootbox.alert(data.message, function(){
-                  window.location.replace("/invoice");
+                  bootbox.alert(data.order);
+                  //window.location.replace("/invoice");
                 });
             } else {
                 bootbox.alert(data.message);
