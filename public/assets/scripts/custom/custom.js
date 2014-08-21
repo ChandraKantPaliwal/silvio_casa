@@ -201,6 +201,7 @@ function calculate_total_price(){
         $('.total-payable-amount').val(total_price);
         $('.balance').val(total_price);
     });
+    $('.discount-percent').blur();
 }
 
 // function discount_calcuate(percent,amount){

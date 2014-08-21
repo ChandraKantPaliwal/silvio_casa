@@ -61,8 +61,8 @@ exports.save = function(req, res){
 };
 
 
-exports.delete=function(req, res){
-	var dGet = querystring.stringify(req.body);
+exports.remove=function(req, res){
+	var dGet = querystring.stringify(req.params);
 	var options = {
 			host : config.host,
 			port : config.appPort,
@@ -70,15 +70,14 @@ exports.delete=function(req, res){
 			method : 'DELETE',
 			headers: {
 		          'Content-Type': 'application/x-www-form-urlencoded',
-		          'authentication_token': req.session.token
+		          'authentication_token': session.token
 		    }
 		};
-
 	var reqPost = http.request(options, function(response) {
 		response.on('data', function(data) {
 			var data=JSON.parse(data);
 			console.log(data);
-			if(data.statusCode == 200){
+			if(response.statusCode == 200){
 				res.json(data);
 			} else {
 				res.json(data);

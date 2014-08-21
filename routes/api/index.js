@@ -93,7 +93,7 @@ router.route('/bill')
 	.post(billModel.save, billController.save);
 
 router.route('/bill/:id')
-	.delete(billModel.delete, billController.delete)
+	.delete(billModel.remove, billController.remove)
 
 
 //on routes that are associated with invoice

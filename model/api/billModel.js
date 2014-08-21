@@ -88,7 +88,9 @@ exports.save=function(req,res,next){
 		});
 	}
 };
-exports.delete=function(req, res, next){
+exports.remove=function(req, res, next){
+					console.log("model api called");
+
 	next();
 };
 exports.billDetails=function(req,res,next){

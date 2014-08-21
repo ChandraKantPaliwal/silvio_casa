@@ -26,7 +26,7 @@ exports.save=function(req,res){
 	});
 };
 
-exports.delete=function(req, res){
+exports.remove=function(req, res){
 	var query="delete from `orders` where id='"+req.params.id+"'";
 	var query_1="delete from `order_items` where orders_id='"+req.params.id+"'";
 	connection.query(query, function(err, info){
@@ -39,6 +39,7 @@ exports.delete=function(req, res){
 					res.jsonp(500,{"success":"false","message":"internal error"});
 				}
 				else{
+					console.log("yoyoyoyoy");
 					res.jsonp(200,{"success":"true","message":"Order deleted Successfully"});
 				}
 			});

@@ -70,8 +70,9 @@ var billController = require('../controller/app/billController');
 router.route('/bill')
 	.get(globalModel.index, billModel.new, billController.new)
 	.post(globalModel.index, billModel.save, billController.save);
-router.route('/bill/:id')
-	.get(globalModel.index, billModel.delete, billController.delete);
+
+router.route('/deleteBill/:id')
+	.get(globalModel.index, billModel.remove, billController.remove);
 
 var invoiceModel = require('../model/app/invoiceModel');
 var invoiceController = require('../controller/app/invoiceController');
