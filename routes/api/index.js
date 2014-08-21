@@ -94,19 +94,21 @@ router.route('/bill')
 
 router.route('/bill/:id')
 	.get(billModel.billDetailsById,billController.billDetailsById)
-	.delete(billModel.remove, billController.remove);
-	// .put(billModel.update,billController.update);
+	.delete(billModel.remove, billController.remove)
+	.put(billModel.update,billController.update);
 
 //	.get(billModel.detailsByCurDate,billController.detailsByCurDate);
 
 //on routes that are associated with invoice
 //-----------------------------------------------------
 router.route('/invoice')
-	.get(invoiceModel.index, invoiceController.index)
+	.get(invoiceModel.index, invoiceController.index);
 	//.post(invoiceModel.save, invoiceController.save)
+router.route('/billDetails')
+	.get(billModel.detailsByCurDate,billController.detailsByCurDate);
 
 router.route('/billDetails/:startDate/:endDate')
-	.get(billModel.billDetails,billController.billDetails)
+	.get(billModel.billDetails,billController.billDetails);
 // on routes that end in /bears/:id
 // ----------------------------------------------------
 // router.route('/user/:id')

@@ -94,3 +94,37 @@ exports.billDetailsById=function(req,res){
 	});
 
 };
+exports.update=function(req,res){
+	var query=" UPDATE `orders` set `customer_name`='"+req.body.customer_name+"',`address`='"+req.body.address+"' where `id`='"+req.params.id+"'"
+	connection.query(query, function(err, order){
+				if(err)
+				{
+					res.jsonp(500,{"success":"false","message":"internal error"});
+				}
+				else if(order.affectedRows>0){
+					res.jsonp(200,{"success":"true","message":"Updated Successfully"});
+				}
+				else
+				{
+					//console.log(user);
+					res.jsonp(404, {"success":"false", "message": "Update Unsuccessful"});
+				}
+			});
+};
+exports.detailsByCurDate=function(req,res){
+	var	query="SELECT * FROM `orders` WHERE DATE(`created_at`)=CURDATE()";
+	console.log(query);
+	connection.query(query, function(err, info){
+		if(err){
+			console.log(err);
+			res.jsonp(500,{"success":"false","message":"internal error"});
+		}
+		else if(info.length>0){
+			console.log(info);
+			res.jsonp(200,{"success":"true","message":"Fetched Successfully","orders":info});
+		}
+		else{
+			res.jsonp(404,{"success":"false","message":"Orders not found"});
+		}
+	});
+};
