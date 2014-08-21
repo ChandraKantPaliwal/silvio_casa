@@ -88,10 +88,54 @@ exports.save=function(req,res,next){
 		});
 	}
 };
+<<<<<<< HEAD
+exports.delete=function(req, res, next){
+if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
+	{
+		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
+	}
+	// else if(typeof req.params.user_id=="undefined"||req.params.user_id=='')
+	// {
+	// 	res.jsonp(404,{"success":"false","message":"user_id not found"});
+	// }
+	else
+	{
+		 // `id`='"+req.params.user_id+"' AND
+		connection.query("SELECT * from `users` where `authentication_token`='"+req.header("authentication_token")+"' LIMIT 1", function(err, user){
+			if(err)
+			{
+				res.jsonp(500,{"success":"false","message":"internal error"});
+			}
+			else if(user.length>0)
+			{
+				connection.query("SELECT * from `orders` where `id`='"+req.params.id+"'", function(err, user){
+					if(err)
+					{
+						res.jsonp(500,{"success":"false","message":"internal error"});
+					}
+					else if(user.length>0)
+					{
+						next();	
+					}	
+					else
+					{
+						res.jsonp(404,{"success":"false","message":"Order does not exists"});	
+					}
+			});
+			}
+
+			else
+			{
+				res.jsonp(404,{"success":"false","message":"User not found"});
+			}
+		});
+	}	
+=======
 exports.remove=function(req, res, next){
 					console.log("model api called");
 
 	next();
+>>>>>>> bf1e4f690e9a5cfefffee072d3382566904b8804
 };
 exports.billDetails=function(req,res,next){
 if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
@@ -120,4 +164,33 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 			}
 		});
 	}	
-}
+};
+exports.billDetailsById=function(req,res,next){
+if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
+	{
+		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
+	}
+	// else if(typeof req.params.user_id=="undefined"||req.params.user_id=='')
+	// {
+	// 	res.jsonp(404,{"success":"false","message":"user_id not found"});
+	// }
+	else
+	{
+		 // `id`='"+req.params.user_id+"' AND
+		connection.query("SELECT * from `users` where `authentication_token`='"+req.header("authentication_token")+"' LIMIT 1", function(err, user){
+			if(err)
+			{
+				res.jsonp(500,{"success":"false","message":"internal error"});
+			}
+			else if(user.length>0)
+			{
+				next();
+			}
+			else
+			{
+				res.jsonp(404,{"success":"false","message":"User not found"});
+			}
+		});
+	}	
+
+};

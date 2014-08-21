@@ -93,7 +93,12 @@ router.route('/bill')
 	.post(billModel.save, billController.save);
 
 router.route('/bill/:id')
+<<<<<<< HEAD
+	.get(billModel.billDetailsById,billController.billDetailsById)
+	.delete(billModel.delete, billController.delete)
+=======
 	.delete(billModel.remove, billController.remove)
+>>>>>>> bf1e4f690e9a5cfefffee072d3382566904b8804
 
 
 //on routes that are associated with invoice

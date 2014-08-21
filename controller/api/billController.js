@@ -59,5 +59,39 @@ exports.billDetails=function(req,res){
 						console.log(info);
 						res.jsonp(200,{"success":"true","message":"Fetched Successfully","orders":info});
 					}
+					else{
+						res.jsonp(404,{"success":"false","message":"Orders not found"});
+					}
 				});
+};
+exports.billDetailsById=function(req,res){
+//"SELECT `orders`.`id`, `orders`.`customer_name`, `orders`.`address`, `orders`.`tin_no`,`orders`.`discount_percent`, `orders`.`weight`, `items`.`quantity`, `items`.`making_charges`, `items`.`fixed_price` FROM `items` INNER JOIN `item_types` ON `items`.`item_types_id`=`item_types`.`id` AND items.`id`='"+req.params.item_id+"'"
+var	query="SELECT * from `orders` where `id`='"+req.params.id+"' ";
+				connection.query(query, function(err, info){
+					if(err){
+						console.log(err);
+						res.jsonp(500,{"success":"false","message":"internal error"});
+					}
+					else if(info.length>0){
+						console.log(info);
+						query="SELECT * from `order_items` where `orders_id`='"+req.params.id+"' ";
+						connection.query(query, function(err, items){
+						if(err){
+							console.log(err);
+							res.jsonp(500,{"success":"false","message":"internal error"});
+						}
+						else if(info.length>0){
+							console.log(info);
+							res.jsonp(200,{"success":"true","message":"Fetched Successfully","orders":info,"items":items});
+						}
+						else{
+							res.jsonp(404,{"success":"false","message":"Items not found"});
+						}
+						});
+					}
+					else{
+						res.jsonp(404,{"success":"false","message":"Orders not found"});
+					}
+				});
+
 };
