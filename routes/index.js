@@ -69,7 +69,8 @@ var billController = require('../controller/app/billController');
 
 router.route('/bill')
 	.get(globalModel.index, billModel.new, billController.new)
-	.post(globalModel.index, billModel.save, billController.save);
+	.post(globalModel.index, billModel.save, billController.save)
+	.put(globalModel.index, billModel.update, billController.update);
 
 router.route('/bill/:id')
 	.get(globalModel.index, billModel.show, billController.show);

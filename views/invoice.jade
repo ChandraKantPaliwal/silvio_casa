@@ -96,12 +96,36 @@ block page_content
                     button.order-delete.btn.default.red-stripe(bill-id="#{invoice.id}")
                       i.fa.fa-times
                       | Cancel Order
-                    button.btn.default.red-stripe.edit-bill(bill-id="#{invoice.id}")
+                    a.btn.default.red-stripe.edit-bill(bill-id="#{invoice.id}" data-toggle='modal' href='#basic')
                       i.fa.fa-edit
                       | Edit
                     button.btn.default.red-stripe.view-order(bill-id="#{invoice.id}")
                       i.fa.fa-bars
                       | View
+            #basic.modal.fade(tabindex="-1", role="basic", aria-hidden="true", style="display: none;")
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    button.close(type="button", data-dismiss="modal", aria-hidden="true")
+                    h4.modal-title Modal Title
+                  .modal-body
+                    form#form_sample_1.form-horizontal(action="#", method="post")
+                      .form-group
+                        .row
+                          label.control-label.col-md-4 Customer Name
+                          .col-md-6
+                            input#order-id(type='hidden' name='id')
+                            input#customer_name.form-control(type="text", autocomplete="off", name="customer_name", value="")
+                      .form-group
+                        .row
+                          label.control-label.col-md-4 Address
+                          .col-md-6
+                            input#address.form-control(type="text", name="address", autocomplete="off", value="")
+                  .modal-footer
+                    button.btn.default(type="button", data-dismiss="modal") Close
+                    button#update_invoice.btn.btn-success.update_invoice(name="update_invoice", type="button") Update
+                // /.modal-content
+              // /.modal-dialog
 block doc_ready
   script.
     $(document).ready(function(){
@@ -122,14 +146,22 @@ block doc_ready
       $('.edit-bill').click(function(){
         $(this).html("Editing...");
         $.get("/bill/"+$(this).attr('bill-id'), function(data) {
+          $('#order-id').val(data.order[0].id);
+          $('#customer_name').val(data.order[0].customer_name);
+          $('#address').val(data.order[0].address);
+        });
+      });
+      $('#update_invoice').click(function(){
+        var val=$('#form_sample_1').serialize();
+        $.put("/bill/",val, function(data) {
             if(data.success == "true"){
+                $("#update_invoice").html("Updating...");
                 bootbox.alert(data.message, function(){
-                  bootbox.alert(data.order);
-                  //window.location.replace("/invoice");
+                  window.location.replace("/invoice");
                 });
             } else {
                 bootbox.alert(data.message);
-                // $(".generate_bill").html("Generate Bill");
+                $("#update_invoice").html("Updating...");
             }
         });
       });

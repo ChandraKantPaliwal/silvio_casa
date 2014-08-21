@@ -110,11 +110,42 @@ exports.show=function(req, res){
             var data = JSON.parse(data_final);
             console.log(data);
             if(response.statusCode == 200){
-                res.jsonp(200, {"success":true, "items":data.item});
+                res.jsonp(200, {"success":true, "order":data.order, "items":data.items, "message":data.message});
             } else {
                 res.jsonp(200, {"success":false, "message":data.message});
             }
         });
     });
     reqGet.end();
+};
+
+exports.update = function(req, res){
+	req.body.user_id = session.userId;
+	var dGet = querystring.stringify(req.body);
+
+	var options = {
+		host : config.host,
+		port : config.appPort,
+		path : '/api/bill',
+		method : 'PUT',
+		headers: {
+			'Content-Type':'application/x-www-form-urlencoded',
+	        'authentication_token': session.token
+	    }
+	};
+
+	var reqPost = http.request(options, function(response) {
+		response.on('data', function(data) {
+			var data=JSON.parse(data);
+			console.log(data);
+			if(response.statusCode == 200){
+				res.json(data);
+			} else {
+				res.json(data);
+			}
+		});
+
+	});
+	reqPost.write(dGet);
+	reqPost.end();
 };
