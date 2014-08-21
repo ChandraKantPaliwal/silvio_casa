@@ -37,25 +37,25 @@ block page_content
             i.fa.fa-cogs
             | Billing
         .portlet-body
-          form(action="#", method="post")
+          form(action="#", id='form-bill', method="post")
             div(style="padding:10px 10px 15px 30px")
               .form-group
                 .row
                   label.control-label.col-md-2 Customer Name
                   .col-md-6
-                    input.form-control(type="text", autocomplete="off", name="customer_name")
+                    input.form-control(type="text", autocomplete="off", name="customer_name" value='')
                   .col-md-4
               .form-group
                 .row
                   label.control-label.col-md-2 Address
                   .col-md-6
-                    input.form-control(type="text", autocomplete="off", name="address")
+                    input.form-control(type="text", autocomplete="off", name="address" value='')
                   .col-md-4
               .form-group
                 .row
                   label.control-label.col-md-2 TIN No.
                   .col-md-6
-                    input.form-control(type="text", autocomplete="off", name="tin_no")
+                    input.form-control(type="text", autocomplete="off", name="tin_no" value='')
                   .col-md-4
             .table-responsive
               table.table.table-hover
@@ -77,10 +77,12 @@ block page_content
                     th
                     th
                       input.col-md-12.form-control(type='text', name='item_code[]', placeholder='Search item...', class='item-code typeahead', autocomplete='off')
+                      input.form-control.ids(type="hidden", name='ids[]', readonly)
                     th
                       input.form-control.item-name(type="text", autocomplete="off", name="item_name[]" readonly)
                     th
                       input.form-control.item-weight(type="text", name="item_weight[]" readonly)
+                      input.form-control.actual-weight(type="hidden", readonly)
                     th
                       input.form-control.item-quantity.validate-field(type="text", autocomplete="off", name="item_quantity[]")
                       input.form-control.available-quantity(type="hidden", autocomplete="off")
@@ -156,8 +158,10 @@ block doc_ready
   script(type='text/javascript', src='/assets/plugins/bootstrap-typeahead/bootstrap-typeahead.js')
   script.
     $(document).ready(function(){
+      $('.discount-percent').val(0);
+      $('.vat-percent').val(0);
       $('#add_more_rows').click(function(){
-        $('.bill-body').append("<tr><th></th><th><input type='text' autocomplete='off' name='item_code[]' class='form-control item-code typeahead' placeholder='Search item...'/></th><th><input type='text' autocomplete='off' name='item_name[]' readonly class='form-control item-name'/></th><th><input type='text' name='item_weight[]' readonly class='form-control item-weight'/></th><th><input type='text' autocomplete='off' name='item_quantity[]' class='form-control item-quantity validate-field'/><input type='hidden' autocomplete='off' class='form-control available-quantity'/></th><th><input type='text' readonly=' name='item_price[]' class='form-control item-price'/><input type='hidden' autocomplete='off' class='form-control actual-price'/></th></tr>");
+        $('.bill-body').append("<tr><th></th><th><input type='text' autocomplete='off' name='item_code[]' class='form-control item-code typeahead' placeholder='Search item...'/><input type='hidden' autocomplete='off' class='form-control ids' name='ids[]'/></th><th><input type='text' autocomplete='off' name='item_name[]' readonly class='form-control item-name'/></th><th><input type='text' name='item_weight[]' readonly class='form-control item-weight'/><input type='hidden' autocomplete='off' class='form-control actual-weight'/></th><th><input type='text' autocomplete='off' name='item_quantity[]' class='form-control item-quantity validate-field'/><input type='hidden' autocomplete='off' class='form-control available-quantity'/></th><th><input type='text' readonly name='item_price[]' class='form-control item-price'/><input type='hidden' autocomplete='off' class='form-control actual-price'/></th></tr>");
         typeaheadTest();
       });
       typeaheadTest();

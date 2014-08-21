@@ -27,7 +27,6 @@ exports.index=function(req, res){
 };
 
 exports.save = function(req, res){
-	console.log("oskoskosk");
 	var dataGet = {
         "user_id":session.userId,
         "name":req.body.name,
@@ -64,9 +63,7 @@ exports.save = function(req, res){
         		res.redirect('/item');
         	}
         });
-
     });
-
     reqPost.write(dGet);
     reqPost.end();
 };

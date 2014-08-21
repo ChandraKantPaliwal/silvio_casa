@@ -63,8 +63,8 @@ block page_content
                   input.form-control#invoice-number(name='name')
             .col-md-offset-3.col-md-9
               button.btn.green(type="button" id='search' name="btn_search" style="margin-bottom:20px") Submit
-        .portlet-body      
-          table#invoice_table.table.table-striped.table-bordered.table-hover.table-full-width
+        .portlet-body
+          table#sample_2.table.table-striped.table-bordered.table-hover.table-full-width
             thead
               tr
                 th
@@ -79,19 +79,42 @@ block page_content
                   | Total Amount
                 th
                   | Actions
-                
             tbody
-              tr
-                td
-                  | dsf
-                td
-                  | dffd
-                td
-                  | df
-                td
-                  | df
-                td
-                  | dfdf
-                td
-                  | fdfd
-                 
+              - each invoice in invoices
+                tr
+                  td
+                    | #{invoice.id}
+                  td
+                    | #{invoice.customer_name}
+                  td
+                    | #{invoice.created_date}
+                  td
+                    | #{invoice.advance}
+                  td
+                    | #{invoice.total_payable_amount}
+                  td
+                    button.order-delete.btn.default.red-stripe(bill-id="#{invoice.id}")
+                      i.fa.fa-times
+                      | Cancel Order
+                    button.btn.default.red-stripe.edit-bill(bill-id="#{invoice.id}")
+                      i.fa.fa-edit
+                      | Edit
+                    button.btn.default.red-stripe.view-order(bill-id="#{invoice.id}")
+                      i.fa.fa-bars
+                      | View
+block doc_ready
+  script.
+    $(document).ready(function(){
+      $('.order-delete').click(function(){
+        $.post("/bill/"+$(this).attr('bill-id'), function(data) {
+            if(data.success == "true"){
+                // $(".generate_bill").html("Bill Generated");
+                bootbox.alert(data.message);
+                window.location.replace("/invoice");
+            } else {
+                bootbox.alert(data.message);
+                // $(".generate_bill").html("Generate Bill");
+            }
+        });
+      });
+    });

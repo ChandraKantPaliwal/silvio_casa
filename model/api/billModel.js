@@ -88,6 +88,9 @@ exports.save=function(req,res,next){
 		});
 	}
 };
+exports.delete=function(req, res, next){
+	next();
+};
 exports.billDetails=function(req,res,next){
 if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
 	{
