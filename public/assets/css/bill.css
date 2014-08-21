@@ -1,0 +1,45 @@
+body
+{
+    font-size: 13px;
+}
+    span.block{
+        display: block;
+    }
+
+    span.large
+    {
+        font-size: 14px;
+    }
+    
+    span.bold{
+        font-weight: bold;
+    }
+
+    body{
+        font-family: 'Open Sans';
+    }
+
+     p.footer-para {
+         text-align: center;
+         width: 100%;
+        }
+
+
+    @media print {
+
+        p.footer-para {
+            padding-left: 150px;
+        }
+
+        .footer{
+            width: 100%;
+        }
+        .add-table{
+            width: 100%;
+        }
+
+        .print-hide{
+            display: none;
+        }
+
+    }

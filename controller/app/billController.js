@@ -140,6 +140,9 @@ exports.detail=function(req, res){
             var data = JSON.parse(data_final);
             console.log(data);
             if(response.statusCode == 200){
+            	data.order[0].created_at = moment(data.order[0].created_at.substring(0,10), "YYYY-MM-DD").format('DD-MM-YYYY');
+            	data.order[0].year = data.order[0].created_at.substring(8,10);
+            	data.order[0].year = parseInt(data.order[0].year)+"-"+(parseInt(data.order[0].year)+1);
                 res.render('viewBill', { title: 'View Bill', bill:'active', priv:session.userPriv, username:session.userName, order:data.order, items:data.items});
             } else {
                 res.jsonp(200, {"success":false, "message":data.message});

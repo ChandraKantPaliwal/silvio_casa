@@ -1,70 +1,159 @@
-extends layout
-
-block title_top
-  | Silvio Casa
-
-block meta_tags
-  meta(content='', name='description')
-  meta(content='', name='author')
-
-block title
-  | Welcome to #{title}
-
-block hint
-  | Hint
-
-block title_left
-  | YOYO
-
-block breadcrumb
-  ul.page-breadcrumb.breadcrumb
-    li
-      i.fa.fa-home
-    li
-      a(href="/")
-        | Dashboard
-      i.fa.fa-angle-right
-
-
-block page_content
-  .row
-    .col-md-12
-      .portlet.box.yellow
-        .portlet-title
-          .caption
-            i.fa.fa-coffee
-            | Notifications
-        .portlet-body
-          .table-responsive
-            table.table.table-bordered.table-hover
-              thead
+doctype html
+html.no-js(lang='en')
+  //
+     BEGIN HEAD 
+  head
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(content='width=device-width, initial-scale=1.0', name='viewport')
+    block meta_tags
+    //
+       BEGIN GLOBAL MANDATORY STYLES 
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all', rel='stylesheet', type='text/css')
+    link(href='/assets/plugins/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+    link(href='/assets/plugins/bootstrap/css/bootstrap.min.css', rel='stylesheet', type='text/css')
+    link(href='/assets/css/bill.css', rel='stylesheet', type='text/css')
+  //
+     END HEAD 
+  //
+     BEGIN BODY 
+  body.page-header-fixed(cz-shortcut-listen="true")
+    .container
+      .row
+        .col-md-12
+          table
+            tbody
+              tr
+                td
+                  span.bold.block.large SILVIO CASA
+                  span.bold Bank:
+                  span Karnataka Bank Ltd.
+                  br
+                  span.bold A/C No:
+                  span 8042000100024101
+                  br
+                  span.bold IFSC:
+                  span KARB0000804
+                  br
+                  span CBC Branch ,
+                  span UDAIPUR
+                td(style="padding-left:60px;")
+                  span.block.bold Invoice No :
+                  span.block#invoice-no SC/#{order[0].year}/#{order[0].id}
+                  span.block.bold Dated: 
+                  span.block #{order[0].created_at}
+      .row(style="padding-top:15px;")
+        .col-md-12
+          span.bold Customer Name:
+          span #{order[0].customer_name}
+          br
+          span.bold Address:
+          span #{order[0].address}
+          br
+          -if(order[0].tin_no)
+            span.bold TIN No.:
+            span #{order[0].tin_no}
+            br
+      hr
+      .row(style="margin-top:10px;")
+        .col-md-12
+          table.table.table-bordered.table-hover(width="100%")
+            thead
+              tr
+                th
+                  | Sr. No.
+                th
+                  | Description of Goods
+                th
+                  | Quantity
+                th
+                  | Amount
+            tbody
+              -var total=0;
+              -var total=0;
+              -var total_weight=0;
+              -each item, i in items
+                -total=total+item.price;
+                -total_weight=total_weight+item.weight;
                 tr
-                  th
-                    | #
-                  th
-                    | Item Name
-                  th
-                    | Item Code
-                  th
-                    | Item Quantity
-                  th
-                    | Status
-                  th
-                    | Action
-              tbody
-                tr
-                  td
-                    | 1
-                  td
-                    | OXN. Vas Murti
-                  td
-                    | vas_murti
-                  td
-                    | 0
-                  td
-                    span.label.label-sm.label-danger
-                      | Stock Empty
-                  td
-                    a.btn.blue.btn-sm.disable-notification(item-id="1")
-                      | Disable Notification
+                  td #{i+1}
+                  td #{item.name}
+                  td #{item.quantity}
+                  td #{item.price}
 
+            tbody
+              tr
+                td(colspan="3", style="text-align:right;")
+                  | Discount :
+                  b
+                    | #{order[0].discount_percent}%
+                td
+                  i.fa.fa-rupee
+                  | #{total*order[0].discount_percent/100}
+                  -var discount_amount=total*order[0].discount_percent/100;
+                  -var amount_after_discount=total-discount_amount;
+              tr
+                td(colspan="3", style="text-align:right;")
+                  | VAT :
+                  b #{order[0].vat_percent}% 
+                td
+                  i.fa.fa-rupee
+                  | #{amount_after_discount*order[0].vat_percent/100}
+                  -var vat_amount=amount_after_discount*order[0].vat_percent/100;
+                  -var amount_after_vat=amount_after_discount+vat_amount;
+              tr
+                td(colspan="3", style="text-align:right;")
+                  | Total :
+                  b #{total_weight} GMS
+                td
+                  i.fa.fa-rupee
+                  | #{amount_after_vat}
+              tr
+                td(colspan="3", style="text-align:right;")
+                  | Advance :
+                td
+                  | #{order[0].advance}
+                  -var net_amount=amount_after_vat-order[0].advance;
+              tr
+                td(colspan="3", style="text-align:right;")
+                  | Due Balance :
+                td#net-amount
+                  | #{net_amount}
+              tr
+                td(colspan="3", style="text-align:right;")
+                  | Payment Mode:
+                td
+                  | #{order[0].payment_mode}
+              tr
+                td(colspan="5")
+                  span.block Amount Chargable (In words)
+                  span.bold#amount-in-word(style="text-transform:capitalize;" onload="alert('yoyoyo');")
+              tr
+                td(colspan="5")
+                  span.bold Company VAT TIN:
+                  span 08724006596
+                  br
+                  span.bold Company CST No:
+                  span 08724006596
+                  br
+              tr
+                td(colspan="3")
+                  span.block.bold Declaration
+                  span.block Goods once sold will not be taken back.
+                  span.block All dispute shall be settled at udaipur court.
+                  span.block Interest @24% p.a will be charged if payment is not made within one month.
+                td
+                  | For Silvio Casa Udaipur
+                  br
+                  br
+                  br
+                  | Authorised Signatory
+              tr.print-hide
+                td(style="text-align:center;", colspan="5")
+                  button#print_invoce.btn.btn-success(style="\
+                  z-index: 10000000;\
+                  ") Print Invoice
+              tr
+                td(style="text-align:center;", colspan="5")
+                  | This is a computer generated invoice.
+  script(src="/assets/plugins/jquery-1.10.2.min.js", type="text/javascript")
+  script(src="/assets/scripts/custom/bill.js", type="text/javascript")

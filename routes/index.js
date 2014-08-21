@@ -22,7 +22,12 @@ router.get('/', userModel.index, userController.index);
 router.route('/login')
 
 	.get(function(req, res) {
-		res.render('login', { title: 'SILVIO CASA'});
+		if(session.userId){
+			res.redirect('/');
+		}
+		else{
+			res.render('login', { title: 'SILVIO CASA'});
+		}
 	})
 
 	.post(userModel.login, userController.login)
