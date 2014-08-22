@@ -117,7 +117,7 @@ html.no-js(lang='en')
                 td(colspan="3", style="text-align:right;")
                   | Due Balance :
                 td#net-amount
-                  | #{net_amount}
+                  | #{net_amount.toFixed(2)}
               tr
                 td(colspan="3", style="text-align:right;")
                   | Payment Mode:
@@ -126,7 +126,7 @@ html.no-js(lang='en')
               tr
                 td(colspan="5")
                   span.block Amount Chargable (In words)
-                  span.bold#amount-in-word(style="text-transform:capitalize;" onload="alert('yoyoyo');")
+                  span.bold#amount-in-word(style="text-transform:capitalize;")
               tr
                 td(colspan="5")
                   span.bold Company VAT TIN:

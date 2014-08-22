@@ -160,7 +160,7 @@ exports.detailsByCurDate=function(req,res){
 	});
 };
 exports.detailsByRangeDate=function(req,res){
-	var	query="SELECT `order_items`.`id`, `items`.`name`, `order_items`.`orders_id`, `order_items`.`items_id`, `order_items`.`quantity`, `order_items`.`price`, `order_items`.`weight`, `order_items`.`created_at`, `order_items`.`updated_at` FROM `order_items` LEFT JOIN `items` ON `items`.`id`=`order_items`.`items_id` WHERE `order_items`.`created_at` BETWEEN '"+req.params.startDate+"' AND '"+req.params.endDate+"'";
+	var	query="SELECT `order_items`.`id`, `items`.`name`, `order_items`.`orders_id`, `order_items`.`items_id`, `order_items`.`quantity`, `order_items`.`price`, `order_items`.`weight`, `order_items`.`created_at`, `order_items`.`updated_at` FROM `order_items` LEFT JOIN `items` ON `items`.`id`=`order_items`.`items_id` WHERE DATE(`order_items`.`created_at`)>='"+req.params.startDate+"' AND DATE(`order_items`.`created_at`)<='"+req.params.endDate+"'";
 	console.log(query);
 	connection.query(query, function(err, info){
 		if(err){

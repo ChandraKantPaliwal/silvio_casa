@@ -38,7 +38,7 @@ block page_content
             i.fa.fa-coffee
             | Add Item
         .portlet-body.form
-          form.form-horizontal#add-item(action='/item' method='post')
+          form.form-horizontal#add-item(action='#' method='post')
             .form-body
               .form-group
                 label.control-label.col-md-3
@@ -46,21 +46,21 @@ block page_content
                   span.required
                     | *
                 .col-md-4
-                  input.form-control#item-name(name='name')
+                  input.form-control#item-name(name='name', autocomplete='off')
               .form-group
                 label.control-label.col-md-3
                   | Item Code
                   span.required
                     | *
                 .col-md-4
-                  input.form-control#item-code(name='code')
+                  input.form-control#item-code(name='code', autocomplete='off')
               .form-group
                   label.control-label.col-md-3
                     | Item Types
                     span.required
                       | *
                   .col-md-4
-                    select#item-type.form-control(name='item_type')
+                    select#item-type.form-control(name='item_type', autocomplete='off')
                       option(value='')
                         | Select Item Type
                       - each type in itemTypes
@@ -72,14 +72,14 @@ block page_content
                   span.required
                     | *
                 .col-md-4
-                  input.form-control#weight(name='weight')
+                  input.form-control#weight(name='weight', autocomplete='off')
               .form-group
                 label.control-label.col-md-3
                   | Item Quantity
                   span.required
                     | *
                 .col-md-4
-                  input.form-control#quantity(name='quantity')
+                  input.form-control#quantity(name='quantity', autocomplete='off')
               .form-group
                 label.control-label.col-md-3
                   | Item Fixed Price
@@ -96,6 +96,8 @@ block page_content
               .form-group#price-value-field
                 label.control-label.col-md-3
                   | Making Charges
+                  span.required
+                    | *
                 .col-md-4
                   input.form-control.price_value(name='price_value')
             .form-actions.fluid

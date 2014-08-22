@@ -106,11 +106,6 @@ exports.login = function(req, res){
 };
 
 exports.logout = function(req, res){
-    console.log("yoyoyoy");
-    console.log(session);
-    console.log(session.Session);
-   session.Session.flush();
-    console.log(session);
-   res.redirect('/');
-   // res.render('/login', { title: 'SILVIO CASA'});
+    delete session.userId;
+   res.redirect('/login');
 };

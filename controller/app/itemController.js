@@ -55,12 +55,15 @@ exports.save = function(req, res){
         });
         response.on('end',function (){
         	console.log(response.statusCode);
+            var data = JSON.parse(data_final);
         	if(response.statusCode==200){
-        		res.redirect('/');
+        		// res.redirect('/');
+                res.send(data);
         	}
         	else{
                 console.log(data_final);
-        		res.redirect('/item');
+        		// res.redirect('/item');
+                res.send(data);
         	}
         });
     });

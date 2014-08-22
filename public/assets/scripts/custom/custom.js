@@ -49,48 +49,67 @@ $(document).ready(function(){
 });
 
     var $validate = $("#add-item").validate({
-      rules: {
-        name: {
-            required:true,
+        rules: {
+            name: {
+                required:true,
+            },
+            code: {
+                required:true,
+            },
+            item_type: {
+                required:true,
+            },
+            weight: {
+                required:true,
+                number:true
+            },
+            quantity: {
+                required:true,
+                digits:true
+            },
+            price_value:{
+                required:true,
+                number:true
+            }
         },
-        code: {
-            required:true,
+        messages: {
+            name: "Please Enter Name of Item",
+            code: "Please Enter Code of Item",
+            item_type: "Please Select Type of Item",
+            weight: {
+                required: "Please Enter Weight of Item",
+                digits: "Please Enter Numeric value"
+            },
+            quantity: {
+                required: "Please Enter Quantity of Item",
+                digits: "Please Enter Numeric value"
+            },
+            price_value: {
+                required: "Please Enter Price Value of Item",
+                digits: "Please Enter Numeric value"
+            }
         },
-        item_type: {
-            required:true,
-        },
-        weight: {
-            required:true,
-            number:true
-        },
-        quantity: {
-            required:true,
-            digits:true
-        },
-        price_value:{
-            number:true
+        submitHandler: function(form) {
+            var val=$('#add-item').serialize();
+                $.post("/item",val, function(data) {
+                    if(data.success == "true"){
+                        $("#save-item").html("Item Saved");
+                        bootbox.alert(data.message, function(){
+                            window.location.replace("/item");
+                        });
+                    } else {
+                        bootbox.alert(data.message);
+                        $("#save-item").html("Save Item");
+                    }
+                });
         }
-      },
-      messages: {
-        name: "Please Name of Item",
-        code: "Please Code of Item",
-        item_type: "Please Type of Item",
-        weight: {
-            required: "Please Weight of Item",
-            digits: "Please Enter Numeric value"
-        },
-        quantity: {
-            required: "Please Quantity of Item",
-            digits: "Please Enter Numeric value"
-        },
-        price_value: "Please Enter Numeric value"
-      }
     });
 
 $(document).ready(function(){
     $('#save-item').click(function(){
-        $('#save-item').html("validating...").fadeIn();
+        $('#save-item').html("validating...").fadeIn('slow');
             $('#add-item').submit();
+            
             $('#save-item').html("Submit");
     });
 });

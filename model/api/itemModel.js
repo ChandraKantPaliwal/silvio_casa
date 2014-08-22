@@ -158,10 +158,10 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 						res.jsonp(500,{"success":"false","message":"internal error"});
 					}
 					else if(item.length>0){
-						res.jsonp(409,{"success":"true","message":"Item Code already exists"});
+						res.jsonp(409,{"success":"false","message":"Item Code already exists"});
 					}
 					else{
-							next();
+						next();
 					}
 				});
 			}
