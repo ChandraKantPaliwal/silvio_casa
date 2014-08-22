@@ -8,13 +8,7 @@ block meta_tags
   meta(content='', name='author')
 
 block title
-  | Welcome to #{title}
-
-block hint
-  | Hint
-
-block title_left
-  | YOYO
+  | #{title}
 
 block breadcrumb
   ul.page-breadcrumb.breadcrumb
@@ -46,25 +40,16 @@ block page_content
                   th
                     | Item Code
                   th
-                    | Item Quantity
-                  th
-                    | Status
-                  th
                     | Action
               tbody
-                tr
-                  td
-                    | 1
-                  td
-                    | OXN. Vas Murti
-                  td
-                    | vas_murti
-                  td
-                    | 0
-                  td
-                    span.label.label-sm.label-danger
-                      | Stock Empty
-                  td
-                    a.btn.blue.btn-sm.disable-notification(item-id="1")
-                      | Disable Notification
-
+                -each item, i in items
+                  tr
+                    td
+                      | #{i+1}
+                    td
+                      | #{item.name}
+                    td
+                      | #{item.code}
+                    td
+                      a.btn.blue.btn-sm.disable-notification(item-id="#{item.id}")
+                        | Disable Notification

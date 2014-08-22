@@ -240,18 +240,12 @@ exports.update=function(req,res,next){
 
 };
 exports.detailsByCurDate=function(req,res,next){
-console.log("Hello");
-if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
+	if(typeof(req.header("authentication_token"))=='undefined'||req.header("authentication_token")=='')
 	{
 		res.jsonp(404,{"success":"false","message":"authentication_token not found"});
 	}
-	// else if(typeof req.params.user_id=="undefined"||req.params.user_id=='')
-	// {
-	// 	res.jsonp(404,{"success":"false","message":"user_id not found"});
-	// }
 	else
 	{
-		 // `id`='"+req.params.user_id+"' AND
 		connection.query("SELECT * from `users` where `authentication_token`='"+req.header("authentication_token")+"' LIMIT 1", function(err, user){
 			if(err)
 			{
@@ -269,4 +263,8 @@ if(typeof(req.header("authentication_token"))=='undefined'||req.header("authenti
 			}
 		});
 	}
+};
+
+exports.detailsByRangeDate=function(req, res, next){
+	next();
 };

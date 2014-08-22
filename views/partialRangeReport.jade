@@ -1,0 +1,30 @@
+.table-responsive
+    table.table.table-striped.table-bordered.table-advance.table-hover
+      tbody
+        -var total_price=0;
+        -each item in reports
+          -total_price+=item.price;
+        tr
+          td
+            b Total sale : 
+          td(colspan="2")
+            i.fa.fa-rupee
+            | #{total_price}
+        tr
+          td(colspan="3")
+            b Total items sold
+        tr
+            td
+              b Sr. No.
+            td
+              b Item Name
+            td
+              b Quantity
+        -each item, i in reports
+          tr
+            td
+              | #{i+1}
+            td
+              | #{item.name}
+            td
+              | #{item.quantity}

@@ -17,11 +17,13 @@ router.use(function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/', userModel.index, userController.index);
+router.get('/', globalModel.index, userModel.index, userController.index);
+router.get('/disableNotification/:id', globalModel.index, userModel.disableNotification, userController.disableNotification);
 
 router.route('/login')
 
 	.get(function(req, res) {
+		console.log("login called");
 		if(session.userId){
 			res.redirect('/');
 		}
@@ -92,6 +94,13 @@ var invoiceController = require('../controller/app/invoiceController');
 
 router.route('/invoice')
 	.get(globalModel.index, invoiceModel.index, invoiceController.index);
+
+var reportModel = require('../model/app/reportModel');
+var reportController = require('../controller/app/reportController');
+
+router.route('/reports')
+	.get(globalModel.index, reportModel.index, reportController.index)
+	.post(globalModel.index, reportModel.range, reportController.range);
 
 
 module.exports = router;

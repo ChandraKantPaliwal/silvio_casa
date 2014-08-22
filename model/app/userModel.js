@@ -4,7 +4,10 @@ exports.index=function(req, res, next){
 };
 
 exports.login = function(req, res, next){
-	console.log("yes requet done");
+	next();
+}
+
+exports.disableNotification = function(req, res, next){
 	next();
 }
 

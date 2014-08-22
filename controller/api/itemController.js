@@ -1,6 +1,37 @@
 //fetch_items
+exports.dashboard=function(req, res){
+	connection.query("SELECT * from `items` where `quantity`='0' and `notification_status`='0'", function(err, items){
+		if(err)
+		{
+			console.log(err);
+			res.jsonp(500,{"success":"false","message":"internal error"});
+		}
+		else
+		{
+			res.jsonp(200,{"success":"true","message":"Fetched Successfully","items":items});
+		}
+	});
+};
+
+exports.disableNotification=function(req, res){
+	connection.query("UPDATE `items` SET `notification_status`='1' WHERE `id`='"+req.body.id+"'", function(err, info){
+		if(err)
+		{
+			console.log(err);
+			res.jsonp(500,{"success":"false","message":"internal error"});
+		}
+		else if(info.affectedRows>0)
+		{
+			res.jsonp(200,{"success":"true","message":"notification Disabled Successfully"});
+		}
+		else
+		{
+			res.jsonp(403,{"success":"false","message":"notification Disabled failed"});
+		}
+	});
+};
+
 exports.fetch_item_types=function(req, res){
-	console.log("Hello...123");
 	connection.query("SELECT `id`,`name` from `item_types`", function(err, item_types){
 		if(err)
 		{

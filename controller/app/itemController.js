@@ -17,7 +17,7 @@ exports.index=function(req, res){
         response.on('end',function (){
             var data = JSON.parse(data_final);
             if(response.statusCode == 200){
-                res.render('item', { title: 'Add Item', items:'active', priv:session.userPriv, username:session.userName , itemTypes:data.item_types});
+                res.render('item', { title: 'Add Item', item_active:'active', priv:session.userPriv, username:session.userName , itemTypes:data.item_types});
             } else {
                 res.send(data.success);
             }
@@ -89,7 +89,7 @@ exports.show=function(req, res){
             var data = JSON.parse(data_final);
             console.log(data);
             if(response.statusCode == 200){
-                res.render('item-show', { title: 'Show Item', items:'active', priv:session.userPriv, username:session.userName , items:data.items});
+                res.render('item-show', { title: 'Show Item', item_active:'active', priv:session.userPriv, username:session.userName , items:data.items});
             } else {
                 res.send(data.success);
             }

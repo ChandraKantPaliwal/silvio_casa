@@ -37,7 +37,7 @@ exports.index=function(req, res){
                         var dataInventory = JSON.parse(data_final_inventory);
                         console.log(dataInventory);
                         if(response.statusCode == 200){
-                            res.render('inventory', { title: 'Add Item', inventory:'active', priv:session.userPriv, username:session.userName, itemTypes:data.item_types , inventories:dataInventory.items});
+                            res.render('inventory', { title: 'Inventory', inventory:'active', priv:session.userPriv, username:session.userName, itemTypes:data.item_types , inventories:dataInventory.items});
                         } else {
                             res.send(dataInventory.success);
                         }

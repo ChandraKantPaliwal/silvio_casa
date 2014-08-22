@@ -1,10 +1,63 @@
 exports.index=function(req, res){
-	if(session.userId!=undefined){
-		res.render('index', { title: 'Welcome to Silvio Casa', dashboard:'active', priv:session.userPriv, username:session.userName });
-	}
-	else{
-		res.redirect('/login');
-	}
+        var options = {
+        host : config.host,
+        port : config.appPort,
+        path : '/api/dashboard',
+        method : 'GET',
+        headers: {
+        'Content-Type':'application/json',
+        'authentication_token': session.token
+        }
+    };
+    var reqGet = http.request(options, function(response) {
+        var data_final ="";
+        response.on('data', function(chunk) {
+            data_final = data_final+chunk;
+        });
+        response.on('end',function (){
+            console.log(response.statusCode);
+            var data = JSON.parse(data_final);
+            if(response.statusCode == 200){
+                console.log("yoyoyoy");
+                res.render('index', { title: 'Welcome to Silvio Casa', dashboard:'active', priv:session.userPriv, username:session.userName, items:data.items});
+            } else {
+                res.send(data.success);
+            }
+        });
+    });
+    reqGet.end();
+};
+exports.disableNotification=function(req, res){
+    req.body.id=req.params.id;
+    req.body.user_id=session.userId;
+    var dGet = querystring.stringify(req.body);
+    console.log(dGet);
+    var options = {
+            host : config.host,
+            port : config.appPort,
+            path : '/api/disableNotification',
+            method : 'PUT',
+            headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'authentication_token': session.token
+            }
+        };
+        console.log("SOKOSKSOOKSOKSOKOSKSKSOKSOKSOKSKS");
+    var reqPost = http.request(options, function(response) {
+        response.on('data', function(data) {
+            console.log("yooyoyoyoyoyoyyoyooyooyo");
+            var data=JSON.parse(data);
+            console.log(data);
+            if(data.statusCode == 200){
+                res.json(data);
+            } else {
+                res.json(data);
+            }
+        });
+
+    });
+    reqPost.write(dGet);
+    reqPost.end();
 };
 
 exports.login = function(req, res){
@@ -53,7 +106,11 @@ exports.login = function(req, res){
 };
 
 exports.logout = function(req, res){
-   session.destroy();
+    console.log("yoyoyoy");
+    console.log(session);
+    console.log(session.Session);
+   session.Session.flush();
+    console.log(session);
    res.redirect('/');
-   //console.log(moment("04/13/2014", "MM/DD/YYYY").format('YYYY-MM-DD hh:mm:ss'));
+   // res.render('/login', { title: 'SILVIO CASA'});
 };

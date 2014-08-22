@@ -270,7 +270,7 @@ $(document).ready(function(){
             if(data.success == "true"){
                 $(".generate_bill").html("Bill Generated");
                 bootbox.alert(data.message);
-                window.location.replace("/");
+                window.location.replace("/viewBill/"+data.order_id);
             } else {
                 bootbox.alert(data.message);
                 $(".generate_bill").html("Generate Bill");

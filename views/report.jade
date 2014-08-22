@@ -1,0 +1,96 @@
+extends layout
+
+block title_top
+  | Silvio Casa
+
+block meta_tags
+  meta(content='', name='description')
+  meta(content='', name='author')
+
+block title
+  | #{title}
+
+block hint
+  | Hint
+
+block title_left
+  | YOYO
+
+block breadcrumb
+  ul.page-breadcrumb.breadcrumb
+    li
+      i.fa.fa-home
+    li
+      a(href="/")
+        | Dashboard
+      i.fa.fa-angle-right
+
+
+block page_content
+  .row
+    .col-md-12
+      .portlet.box.light-grey
+        .portlet-title
+          .caption
+            i.fa.fa-reorder
+            | Reports
+          .tools
+        .portlet-body
+          .tabbable-custom
+            ul.nav.nav-tabs
+              li.active
+                a(href="#tab_5_1", data-toggle="tab")
+                  | Daily Reports
+              li
+                a(href="#tab_5_2", data-toggle="tab")
+                  | Custom Reports
+            .tab-content
+              #tab_5_1.tab-pane.active
+                .table-responsive
+                  table.table.table-striped.table-bordered.table-advance.table-hover
+                    tbody
+                      -var total_price=0;
+                      -each item in reports
+                        -total_price+=item.price;
+                      tr
+                        td
+                          b Total sale : 
+                        td(colspan="2")
+                          i.fa.fa-rupee
+                          | #{total_price}
+                      tr
+                        td(colspan="3")
+                          b Total items sold
+                      tr
+                          td
+                            b Sr. No.
+                          td
+                            b Item Name
+                          td
+                            b Quantity
+                      -each item, i in reports
+                        tr
+                          td
+                            | #{i+1}
+                          td
+                            | #{item.name}
+                          td
+                            | #{item.quantity}
+              #tab_5_2.tab-pane
+                form.form-horizontal(action="#")
+                  .form-body
+                    .form-group
+                      label.control-label.col-md-3 Date From
+                      .col-md-3
+                        input#date_from.form-control.form-control-inline.input-medium.date-picker(type="text", size="16", value="")
+                  .form-body
+                    .form-group
+                      label.control-label.col-md-3 Date To
+                      .col-md-3
+                        input#date_to.form-control.form-control-inline.input-medium.date-picker(type="text", size="16", value="")
+                  .form-body
+                    .form-group
+                      label.control-label.col-md-3
+                      .col-md-3
+                        button#bnt_get_reports.btn(type="button") Get Report
+                #custom_report_container.table-responsive

@@ -57,6 +57,13 @@ router.route('/login')
 
 //on routes that are associated with items
 //-----------------------------------------------------
+
+router.route('/dashboard')
+	.get(itemModel.dashboard,itemController.dashboard);
+
+router.route('/disableNotification')
+	.put(itemModel.disableNotification,itemController.disableNotification);
+
 router.route('/itemTypes/:user_id')
 	.get(itemModel.fetch_item_types,itemController.fetch_item_types);
 
@@ -105,11 +112,12 @@ router.route('/bill/:id')
 router.route('/invoice')
 	.get(invoiceModel.index, invoiceController.index);
 	//.post(invoiceModel.save, invoiceController.save)
-router.route('/billDetails')
+router.route('/report')
 	.get(billModel.detailsByCurDate,billController.detailsByCurDate);
 
 router.route('/billDetails/:startDate/:endDate')
-	.get(billModel.billDetails,billController.billDetails);
+	.get(billModel.detailsByRangeDate,billController.detailsByRangeDate);
+	// .get(billModel.billDetails,billController.billDetails);
 // on routes that end in /bears/:id
 // ----------------------------------------------------
 // router.route('/user/:id')

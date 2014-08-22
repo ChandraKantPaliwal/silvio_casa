@@ -120,10 +120,10 @@ html.no-js(lang='en')
                 span.title
                   | Dashboard
             - if(priv == 1)
-              li(class=items)
+              li(class=item_active)
                 a(href='javascript:;')
                   i.fa.fa-bars
-                  - if(items)
+                  - if(item_active)
                   span.selected
                   span.title
                     | Items
@@ -161,17 +161,23 @@ html.no-js(lang='en')
             li(class=(priv == 1 || priv ==0 )?bill:'disabled')
               a(href=(priv == 1 || priv == 0 )?'/bill':'javascript:;')
                 i.fa.fa-legal
+                - if(bill)
+                span.selected
                 span.title
                   | Billing 
                   // Extra for multiple priv test (multiple roles)
             li(class=(priv == 1 || priv ==0 )?invoice:'disabled')
               a(href=(priv == 1 || priv == 0 )?'/invoice':'javascript:;')
                 i.fa.fa-legal
+                - if(invoice)
+                span.selected
                 span.title
                   | View Invoice 
-            li(class=(priv == 1 || priv ==0 )?reports:'disabled')
+            li(class=(priv == 1 || priv ==0 )?report:'disabled')
               a(href=(priv == 1 || priv == 0 )?'/reports':'javascript:;')
                 i.fa.fa-legal
+                - if(report)
+                span.selected
                 span.title
                   | Reports 
 
@@ -288,6 +294,8 @@ html.no-js(lang='en')
     script(src='/assets/plugins/bootbox/bootbox.min.js')
     script(src='/assets/scripts/custom/custom.js')
     script(type='text/javascript', src='/assets/scripts/custom/silverprice.js')
+    script(type='text/javascript', src='/assets/scripts/custom/report.js')
+    script(type='text/javascript', src='/assets/scripts/custom/dashboard.js')
     //
        END PAGE LEVEL SCRIPTS
     block doc_ready
@@ -296,6 +304,7 @@ html.no-js(lang='en')
         // initiate layout and plugins
           App.init();
           TableAdvanced.init();
+          ComponentsPickers.init();
           // initialize();
         });
     //

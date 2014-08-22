@@ -1,30 +1,64 @@
 exports.save=function(req,res){
-	var query="Insert into `orders`(`customer_name`,`address`, `tin_no`, `payment_mode`, `discount_percent`, `vat_percent`,`advance`, `total_payable_amount`) values ('"+req.body.customer_name+"','"+req.body.address+"','"+req.body.tin_no+"','"+req.body.payment_mode+"','"+req.body.discount_percent+"','"+req.body.vat_percent+"','"+req.body.advance+"', '"+req.body.total_payable_amount+"')";	
-	connection.query(query, function(err, info){
-		if(err){
-			console.log(err);
-			res.jsonp(500,{"success":"false","message":"internal error"});
-		}
-		else{
-			console.log(info.insertId);
-			query="Insert into `order_items`(`orders_id`, `items_id`, `quantity`, `price`, `weight`) values";
-			console.log(req.body.items.length);
-			for(var i=0;i<req.body.items.length;i++){
-				query+=" ('"+info.insertId+"', '"+req.body.items[i].id+"', '"+req.body.items[i].quantity+"', '"+req.body.items[i].price+"', '"+req.body.items[i].weight+"'),";
-			}
-			query=query.slice(0, -1);
-			connection.query(query, function(err, info){
-				if(err){
-					console.log(err);
-					res.jsonp(500,{"success":"false","message":"internal error"});
-				}
-				else{
-					res.jsonp(200,{"success":"true","message":"Order Inserted Successfully"});
-				}
-			});
-		}
-	});
+ var flag=0;
+ var query="Insert into `orders`(`customer_name`,`address`, `tin_no`, `payment_mode`, `discount_percent`, `vat_percent`,`advance`, `total_payable_amount`) values ('"+req.body.customer_name+"','"+req.body.address+"','"+req.body.tin_no+"','"+req.body.payment_mode+"','"+req.body.discount_percent+"','"+req.body.vat_percent+"','"+req.body.advance+"', '"+req.body.total_payable_amount+"')"; 
+ connection.query(query, function(err, info){
+  if(err){
+   console.log(err);
+   res.jsonp(500,{"success":"false","message":"internal error"});
+  }
+  else{
+   console.log(info.insertId);
+   var order_id=info.insertId;
+   query="Insert into `order_items`(`orders_id`, `items_id`, `quantity`, `price`, `weight`) values";
+   for(var i=0;i<req.body.items.length;i++){
+    query+=" ('"+info.insertId+"', '"+req.body.items[i].id+"', '"+req.body.items[i].quantity+"', '"+req.body.items[i].price+"', '"+req.body.items[i].weight+"'),";
+   }
+   query=query.slice(0, -1);
+   connection.query(query, function(err, info){
+    if(err){
+     console.log(err);
+     res.jsonp(500,{"success":"false","message":"internal error"});
+    }
+    else{
+     
+     for(var i=0;i<req.body.items.length;i++){
+      reduceQty(req.body.items[i].quantity,req.body.items[i].id,i, req, res, order_id)
+     }
+     
+    }
+    });
+   
+  }
+ });
 };
+
+function reduceQty(quantity,id, i, req, res, order_id){
+
+  connection.query("SELECT `quantity` from `items` where `id`='"+id+"'",function(err,qty){
+   if(err)
+   {
+   console.log(err);
+   res.jsonp(500,{"success":"false","message":"internal error"});
+   }
+   else if(qty.length>0)
+   {
+        var remaining=qty[0].quantity-quantity;
+     connection.query("UPDATE `items` set `quantity`='"+remaining+"' where `id`='"+id+"'",function(err,qty){
+     if(err)
+     {
+     console.log(err);
+        res.jsonp(500,{"success":"false","message":"internal error"});
+     }
+     else 
+     {
+      if(i==req.body.items.length-1){
+        res.jsonp(200,{"success":"true","message":"Order Generated Successfully", "order_id":order_id});
+      }
+      }
+    });
+  } 
+ });         
+}
 
 exports.remove=function(req, res){
 	var query="delete from `orders` where id='"+req.params.id+"'";
@@ -112,7 +146,21 @@ exports.update=function(req,res){
 			});
 };
 exports.detailsByCurDate=function(req,res){
-	var	query="SELECT * FROM `orders` WHERE DATE(`created_at`)=CURDATE()";
+	var	query="SELECT `order_items`.`id`, `items`.`name`, `order_items`.`orders_id`, `order_items`.`items_id`, `order_items`.`quantity`, `order_items`.`price`, `order_items`.`weight`, `order_items`.`created_at`, `order_items`.`updated_at` FROM `order_items` LEFT JOIN `items` ON `items`.`id`=`order_items`.`items_id` WHERE DATE(`order_items`.`created_at`)=CURDATE()";
+	console.log(query);
+	connection.query(query, function(err, info){
+		if(err){
+			console.log(err);
+			res.jsonp(500,{"success":"false","message":"internal error"});
+		}
+		else{
+			console.log(info);
+			res.jsonp(200,{"success":"true","message":"Fetched Successfully","reports":info});
+		}
+	});
+};
+exports.detailsByRangeDate=function(req,res){
+	var	query="SELECT `order_items`.`id`, `items`.`name`, `order_items`.`orders_id`, `order_items`.`items_id`, `order_items`.`quantity`, `order_items`.`price`, `order_items`.`weight`, `order_items`.`created_at`, `order_items`.`updated_at` FROM `order_items` LEFT JOIN `items` ON `items`.`id`=`order_items`.`items_id` WHERE `order_items`.`created_at` BETWEEN '"+req.params.startDate+"' AND '"+req.params.endDate+"'";
 	console.log(query);
 	connection.query(query, function(err, info){
 		if(err){
@@ -121,7 +169,7 @@ exports.detailsByCurDate=function(req,res){
 		}
 		else if(info.length>0){
 			console.log(info);
-			res.jsonp(200,{"success":"true","message":"Fetched Successfully","orders":info});
+			res.jsonp(200,{"success":"true","message":"Fetched Successfully","reports":info});
 		}
 		else{
 			res.jsonp(404,{"success":"false","message":"Orders not found"});
